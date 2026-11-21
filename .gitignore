@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Production build
+frontend/dist/
+dist/
+
+# Python
+__pycache__/
+backend/__pycache__/
+backend/*/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Database & SQLite files
+*.db
+*.sqlite3
+backend/*.db
+
+# Uploaded candidate resumes (keep directory structure)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Environment variables
+.env
+.env.local
+
+# IDEs & System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
