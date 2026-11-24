@@ -1,74 +1,81 @@
 import React from 'react';
-import { ShieldCheck, Info } from 'lucide-react';
+import { ShieldCheck, Info, Sparkles, Heart } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#000000] text-[#86868B] border-t border-white/10 text-xs">
-      {/* Disclaimer Strip */}
-      <div className="bg-[#121214] border-b border-white/5 py-3 px-4">
-        <div className="max-w-7xl mx-auto flex items-start space-x-2 text-[#A1A1A6] text-[11px] leading-relaxed">
-          <Info className="w-4 h-4 shrink-0 mt-0.5 text-[#2997FF]" />
+    <footer className="bg-[#090A0F] text-[#94A3B8] border-t border-white/10 text-xs font-sans relative overflow-hidden">
+      {/* Subtle bottom ambient glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[150px] bg-gradient-to-t from-[#3B1E78]/20 via-[#7C3AED]/10 to-transparent blur-[80px] pointer-events-none"></div>
+
+      {/* Official Disclaimer Strip */}
+      <div className="bg-[#0D0E15] border-b border-white/5 py-3 px-4">
+        <div className="max-w-7xl mx-auto flex items-start space-x-2.5 text-[#94A3B8] text-[11px] leading-relaxed">
+          <Info className="w-4 h-4 shrink-0 mt-0.5 text-[#00D4FF]" />
           <span>
-            <strong>Illustrative Demonstration Notice:</strong> Sample reservation categories, quotas, and optimization parameters implemented in this prototype are engineered for technical demonstration in <strong>Manthan Kriti 2026</strong>. They reflect constraint-aware mathematical modeling and do not constitute official Government of India scheme policy.
+            <strong className="text-[#F8FAFC]">Demonstration Notice:</strong> Quotas, reservation weights, and simulated allocations shown in this application are built for technical evaluation in the <strong>Manthan Kriti 2026 National Hackathon</strong>, showcasing high-dimensional constraint optimization.
           </span>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-3">
-            <div className="flex items-center space-x-2 text-white font-bold text-sm">
-              <div className="w-6 h-6 rounded bg-gradient-to-tr from-[#2997FF] via-[#BF5AF2] to-[#FF375F] flex items-center justify-center text-xs font-black">
-                PM
+          <div className="space-y-3.5">
+            <div className="flex items-center space-x-2.5 text-[#F8FAFC] font-bold text-sm">
+              <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#6366F1] via-[#7C3AED] to-[#00D4FF] flex items-center justify-center text-xs font-black text-white shadow-md shadow-indigo-500/30">
+                <Sparkles className="w-3.5 h-3.5" />
               </div>
-              <span>PM Internship Scheme (PMIS)</span>
+              <span className="tracking-tight text-base">PMIS Prime</span>
             </div>
-            <p className="text-[#86868B] text-xs leading-relaxed">
-              An intelligent, constraint-aware AI internship allocation platform ensuring fair, transparent, and merit-compatible opportunities across India.
+            <p className="text-[#94A3B8] text-xs leading-relaxed">
+              Ultra-high dimensional AI allocation platform delivering fair, merit-aligned, and quota-compliant opportunities across India.
             </p>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>All OR-Tools MIP Solvers Operational</span>
+            </div>
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-white mb-3">Core Pillars</h4>
-            <ul className="space-y-1.5 text-[#86868B] text-xs">
-              <li>• Multi-Criteria Compatibility Engine (0–100)</li>
-              <li>• Python Google OR-Tools Optimization</li>
-              <li>• Mixed Integer Linear Programming (MIP/SCIP)</li>
-              <li>• Role-Based Access Control (RBAC)</li>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F8FAFC] mb-3.5">Algorithmic Pillars</h4>
+            <ul className="space-y-2 text-[#94A3B8] text-xs">
+              <li className="hover:text-[#F8FAFC] transition">• 6-Dimension Vector Scoring (0–100%)</li>
+              <li className="hover:text-[#F8FAFC] transition">• Python Google OR-Tools MIP Engine</li>
+              <li className="hover:text-[#F8FAFC] transition">• Hard Constraint Gating (Degree & CGPA)</li>
+              <li className="hover:text-[#F8FAFC] transition">• Conflict Diagnostics & Soft Relaxation</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-white mb-3">Hackathon Context</h4>
-            <ul className="space-y-1.5 text-[#86868B] text-xs">
-              <li><strong>Event:</strong> Manthan Kriti 2026</li>
-              <li><strong>Domain:</strong> Large-Scale Resource Allocation</li>
-              <li><strong>Solver:</strong> Google OR-Tools MILP Engine</li>
-              <li><strong>Architecture:</strong> FastAPI + React 19 + Tailwind v4</li>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F8FAFC] mb-3.5">National Hackathon</h4>
+            <ul className="space-y-2 text-[#94A3B8] text-xs">
+              <li><strong className="text-[#F8FAFC]">Challenge:</strong> Manthan Kriti 2026</li>
+              <li><strong className="text-[#F8FAFC]">Domain:</strong> AI-Powered Large-Scale Allocation</li>
+              <li><strong className="text-[#F8FAFC]">Stack:</strong> FastAPI + React 19 + SCIP MIP</li>
+              <li><strong className="text-[#F8FAFC]">Scalability:</strong> 100k+ Decision Variables</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-white mb-3">Platform Guarantee</h4>
-            <div className="space-y-2 text-xs text-[#86868B]">
-              <div className="flex items-center space-x-1.5 text-[#30D158]">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F8FAFC] mb-3.5">System Guarantee</h4>
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center space-x-1.5 text-emerald-400 font-semibold">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Zero Duplicate Allocation Guarantee</span>
+                <span>Zero Duplicate Allotment Guarantee</span>
               </div>
-              <p className="text-[11px] text-[#86868B]">
-                Strict capacity bounds, explainable matching breakdowns, and mandatory admin approval before publishing results.
+              <p className="text-[11px] text-[#94A3B8] leading-relaxed">
+                Strict capacity limits, explainable matching breakdowns, and mandatory admin approval before publishing results.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[#86868B] text-[11px]">
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[#94A3B8] text-[11px] gap-2">
           <div>
-            © 2026 AI-Powered PM Internship Matching System • Manthan Kriti 2026
+            © 2026 PMIS Prime • AI-Powered PM Internship Matching System • Manthan Kriti
           </div>
-          <div className="mt-2 sm:mt-0 flex items-center space-x-1">
-            <span>Built with</span>
-            <span className="text-white font-semibold">Precision Optimization & AI</span>
+          <div className="flex items-center space-x-1">
+            <span>Engineered with</span>
+            <span className="text-[#F8FAFC] font-semibold">Ultra-Premium Glassmorphism & AI</span>
           </div>
         </div>
       </div>
