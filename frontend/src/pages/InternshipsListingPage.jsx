@@ -3,15 +3,11 @@ import { internshipsAPI, studentsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { 
   Search, 
-  Filter, 
   MapPin, 
   Building2, 
-  DollarSign, 
-  Users, 
-  CheckCircle2, 
   Briefcase, 
-  SlidersHorizontal,
-  Sparkles
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 
 export default function InternshipsListingPage({ setActiveTab }) {
@@ -28,7 +24,6 @@ export default function InternshipsListingPage({ setActiveTab }) {
 
   const [sectors, setSectors] = useState([]);
   const [locations, setLocations] = useState([]);
-
   const [appliedIds, setAppliedIds] = useState(new Set());
   const [applyingId, setApplyingId] = useState(null);
   const [toast, setToast] = useState('');
@@ -83,7 +78,6 @@ export default function InternshipsListingPage({ setActiveTab }) {
     }
   };
 
-  // Filter client-side
   const filtered = internships.filter((item) => {
     if (selectedSector !== 'All' && item.sector !== selectedSector) return false;
     if (selectedLocation !== 'All' && item.location !== selectedLocation) return false;
@@ -101,214 +95,195 @@ export default function InternshipsListingPage({ setActiveTab }) {
   });
 
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6">
-      {/* Title & Stats */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">
-            Official Vacancies Catalog
-          </span>
-          <h2 className="text-2xl font-black text-slate-900 mt-1">
-            Explore 30+ Enterprise Internship Opportunities
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Filter by sector, location, or required technical competencies under PM Internship Scheme 2026.
-          </p>
-        </div>
-
-        <button
-          onClick={() => setActiveTab('ai-matching')}
-          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5 hover:from-emerald-500 hover:to-emerald-600"
-        >
-          <Sparkles className="w-4 h-4" />
-          <span>View My AI Match Scores</span>
-        </button>
-      </div>
-
-      {toast && (
-        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between">
-          <span>{toast}</span>
-          <button onClick={() => setToast('')} className="text-emerald-700 hover:text-emerald-900">✕</button>
-        </div>
-      )}
-
-      {/* Filter Toolbar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-          {/* Search bar */}
-          <div className="relative md:col-span-2">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by role title, enterprise name, or required skill..."
-              className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0F2A4A] focus:outline-none"
-            />
-          </div>
-
-          {/* Sector filter */}
+    <div className="bg-[#000000] text-white min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8">
+        
+        {/* Header */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <select
-              value={selectedSector}
-              onChange={(e) => setSelectedSector(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0F2A4A] focus:outline-none bg-white font-medium"
-            >
-              <option value="All">All Sectors ({sectors.length - 1})</option>
-              {sectors.filter(s => s !== 'All').map((sec, i) => (
-                <option key={i} value={sec}>{sec}</option>
-              ))}
-            </select>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2997FF] bg-[#2997FF]/15 px-3 py-1 rounded-full border border-[#2997FF]/30">
+              National Opportunity Catalog
+            </span>
+            <h1 className="text-4xl font-black apple-text-gradient mt-2">
+              Explore 30+ Vacancies.
+            </h1>
+            <p className="text-xs text-[#86868B] mt-1">
+              Filter by industry sector, geographic preference, or required technical competencies.
+            </p>
           </div>
 
-          {/* Location filter */}
-          <div>
-            <select
-              value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0F2A4A] focus:outline-none bg-white font-medium"
-            >
-              <option value="All">All Locations ({locations.length - 1})</option>
-              {locations.filter(l => l !== 'All').map((loc, i) => (
-                <option key={i} value={loc}>{loc}</option>
-              ))}
-            </select>
-          </div>
+          <button
+            onClick={() => setActiveTab('ai-matching')}
+            className="px-5 py-2.5 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-lg shadow-blue-500/20"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>Check My AI Match Ranking</span>
+          </button>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between text-xs pt-2 border-t border-slate-100 gap-3">
-          <div className="flex items-center space-x-4">
-            <label className="flex items-center space-x-1.5 cursor-pointer text-slate-700 font-semibold">
+        {toast && (
+          <div className="p-4 rounded-2xl bg-[#30D158]/15 border border-[#30D158]/30 text-[#30D158] text-xs font-semibold flex items-center justify-between">
+            <span>{toast}</span>
+            <button onClick={() => setToast('')} className="text-white hover:opacity-80">✕</button>
+          </div>
+        )}
+
+        {/* Filter Controls (Apple Glass) */}
+        <div className="p-5 rounded-3xl bg-[#161617] border border-white/10 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div className="relative md:col-span-2">
+              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
               <input
-                type="checkbox"
-                checked={remoteOnly}
-                onChange={(e) => setRemoteOnly(e.target.checked)}
-                className="rounded text-emerald-600 focus:ring-emerald-500"
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search by role title, enterprise name, or required skill..."
+                className="w-full pl-10 pr-3 py-2.5 rounded-full bg-black/60 border border-white/10 text-xs text-white focus:outline-none focus:border-[#2997FF]"
               />
-              <span>Remote Internships Only</span>
-            </label>
+            </div>
 
-            <div className="flex items-center space-x-2 text-slate-600">
-              <span>Min Stipend:</span>
+            <div>
               <select
-                value={minStipend}
-                onChange={(e) => setMinStipend(Number(e.target.value))}
-                className="px-2 py-1 rounded-lg border border-slate-200 text-xs bg-white"
+                value={selectedSector}
+                onChange={(e) => setSelectedSector(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-full bg-black/60 border border-white/10 text-xs text-white"
               >
-                <option value={0}>Any</option>
-                <option value={18000}>₹18,000+</option>
-                <option value={20000}>₹20,000+</option>
-                <option value={25000}>₹25,000+</option>
+                <option value="All">All Sectors ({sectors.length - 1})</option>
+                {sectors.filter(s => s !== 'All').map((sec, i) => (
+                  <option key={i} value={sec}>{sec}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-full bg-black/60 border border-white/10 text-xs text-white"
+              >
+                <option value="All">All Locations ({locations.length - 1})</option>
+                {locations.filter(l => l !== 'All').map((loc, i) => (
+                  <option key={i} value={loc}>{loc}</option>
+                ))}
               </select>
             </div>
           </div>
 
-          <div className="text-slate-500">
-            Showing <strong>{filtered.length}</strong> of {internships.length} opportunities
+          <div className="flex flex-wrap items-center justify-between text-xs pt-3 border-t border-white/10 gap-3 text-[#86868B]">
+            <div className="flex items-center space-x-5">
+              <label className="flex items-center space-x-2 cursor-pointer text-slate-300 font-medium">
+                <input
+                  type="checkbox"
+                  checked={remoteOnly}
+                  onChange={(e) => setRemoteOnly(e.target.checked)}
+                  className="rounded text-[#0071E3] focus:ring-0 bg-black/60 border-white/20"
+                />
+                <span>Remote Only</span>
+              </label>
+
+              <div className="flex items-center space-x-2">
+                <span>Min Stipend:</span>
+                <select
+                  value={minStipend}
+                  onChange={(e) => setMinStipend(Number(e.target.value))}
+                  className="px-2.5 py-1 rounded-lg bg-black/60 border border-white/10 text-white text-xs"
+                >
+                  <option value={0}>Any</option>
+                  <option value={18000}>₹18,000+</option>
+                  <option value={20000}>₹20,000+</option>
+                  <option value={25000}>₹25,000+</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              Showing <strong>{filtered.length}</strong> of {internships.length} opportunities
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Grid of Internship Cards */}
-      {loading ? (
-        <div className="py-16 text-center text-slate-500 text-xs">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0F2A4A] mx-auto mb-2"></div>
-          <span>Loading vacancies...</span>
-        </div>
-      ) : filtered.length === 0 ? (
-        <div className="p-12 text-center text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">
-          <Briefcase className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-          <span>No internships match your filter criteria. Try resetting filters.</span>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map((item) => {
-            const hasApplied = appliedIds.has(item.id);
-            const quotas = item.category_reservations || {};
-            return (
-              <div 
-                key={item.id}
-                className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-                      {item.sector}
-                    </span>
-                    <span className="text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                      ₹{item.stipend_amount?.toLocaleString('en-IN')}/mo
-                    </span>
-                  </div>
-
-                  <h3 className="text-base font-bold text-slate-900 line-clamp-1">
-                    {item.title}
-                  </h3>
-                  <div className="text-xs font-semibold text-slate-600 mb-2">
-                    {item.company_name}
-                  </div>
-
-                  <div className="flex items-center space-x-2 text-xs text-slate-500 mb-3">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{item.is_remote ? 'Remote' : item.location}</span>
-                    <span>•</span>
-                    <span>{item.duration_months} Months</span>
-                    <span>•</span>
-                    <span>Min CGPA: <strong>{item.min_cgpa}</strong></span>
-                  </div>
-
-                  {/* Skills Chips */}
-                  <div className="space-y-1.5 mb-3">
-                    <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Required Skills</div>
-                    <div className="flex flex-wrap gap-1">
-                      {item.required_skills?.map((s, idx) => (
-                        <span key={idx} className="text-[10px] font-medium bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded border border-slate-200">
-                          {s}
-                        </span>
-                      ))}
+        {/* Bento Grid of Opportunities */}
+        {loading ? (
+          <div className="py-20 text-center text-slate-500 text-xs">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2997FF] mx-auto mb-3"></div>
+            <span>Loading vacancies...</span>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="p-16 text-center text-[#86868B] text-xs bg-[#161617] rounded-3xl border border-white/10">
+            <Briefcase className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+            <span>No opportunities match your filter criteria. Try resetting filters.</span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filtered.map((item) => {
+              const hasApplied = appliedIds.has(item.id);
+              return (
+                <div 
+                  key={item.id}
+                  className="p-6 rounded-3xl bg-[#161617] border border-white/10 hover:border-white/25 transition-all flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#2997FF] bg-[#2997FF]/15 px-2.5 py-0.5 rounded-full border border-[#2997FF]/30">
+                        {item.sector}
+                      </span>
+                      <span className="text-xs font-black text-[#30D158] bg-[#30D158]/15 px-2.5 py-0.5 rounded-full border border-[#30D158]/30">
+                        ₹{item.stipend_amount?.toLocaleString('en-IN')}/mo
+                      </span>
                     </div>
-                  </div>
 
-                  {/* Seat capacity & quota breakdown */}
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] mb-3">
-                    <div className="flex items-center justify-between text-slate-700 font-semibold mb-1">
-                      <span>Total Capacity:</span>
-                      <span className="font-bold text-slate-900">{item.seats_total} Seats</span>
+                    <h3 className="text-lg font-bold text-white group-hover:text-[#2997FF] transition-colors line-clamp-1">
+                      {item.title}
+                    </h3>
+                    <div className="text-xs text-[#86868B] font-medium mb-3">
+                      {item.company_name}
                     </div>
-                    {Object.keys(quotas).length > 0 && (
-                      <div className="flex items-center space-x-1 text-[10px] text-slate-500">
-                        <span>Demo Quota:</span>
-                        {Object.entries(quotas).map(([k, v]) => (
-                          <span key={k} className="px-1 py-0.2 rounded bg-white border border-slate-200 font-mono">
-                            {k}:{v}
+
+                    <div className="flex items-center space-x-2 text-xs text-[#86868B] mb-4">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                      <span>{item.is_remote ? 'Remote' : item.location}</span>
+                      <span>•</span>
+                      <span>{item.duration_months} Months</span>
+                      <span>•</span>
+                      <span>Min CGPA: <strong className="text-white">{item.min_cgpa}</strong></span>
+                    </div>
+
+                    {/* Skills Chips */}
+                    <div className="space-y-1.5 mb-4">
+                      <div className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider">Required Skills</div>
+                      <div className="flex flex-wrap gap-1">
+                        {item.required_skills?.map((s, idx) => (
+                          <span key={idx} className="text-[10px] font-medium bg-white/5 text-slate-300 px-2 py-0.5 rounded-full border border-white/10">
+                            {s}
                           </span>
                         ))}
                       </div>
-                    )}
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                    <span className="text-[11px] text-[#86868B]">
+                      <strong className="text-white">{item.seats_allocated}</strong> / {item.seats_total} filled
+                    </span>
+
+                    <button
+                      onClick={() => handleApply(item.id)}
+                      disabled={hasApplied || applyingId === item.id}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center space-x-1 ${
+                        hasApplied 
+                          ? 'bg-white/10 text-[#30D158] border border-[#30D158]/30'
+                          : 'bg-[#0071E3] hover:bg-[#0077ED] text-white shadow-xs'
+                      }`}
+                    >
+                      <span>{hasApplied ? 'Applied ✓' : applyingId === item.id ? 'Applying...' : 'Apply Now'}</span>
+                    </button>
                   </div>
                 </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-400 font-medium">
-                    {item.seats_allocated} / {item.seats_total} filled
-                  </span>
-
-                  <button
-                    onClick={() => handleApply(item.id)}
-                    disabled={hasApplied || applyingId === item.id}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1 ${
-                      hasApplied 
-                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-300'
-                        : 'bg-[#0F2A4A] text-white hover:bg-[#0B1E36]'
-                    }`}
-                  >
-                    <span>{hasApplied ? 'Applied ✓' : applyingId === item.id ? 'Applying...' : 'Apply Now'}</span>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

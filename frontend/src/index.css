@@ -2,21 +2,30 @@
 
 @layer base {
   :root {
-    --primary-blue: #0F2A4A;
-    --gov-navy: #0B1E36;
-    --gov-gold: #E5A93C;
-    --gov-green: #107E54;
-    --gov-light-bg: #F8FAFC;
-    --gov-border: #E2E8F0;
+    --apple-black: #000000;
+    --apple-dark: #0A0A0C;
+    --apple-card: #161617;
+    --apple-card-hover: #1D1D1F;
+    --apple-border: rgba(255, 255, 255, 0.12);
+    --apple-blue: #2997FF;
+    --apple-purple: #BF5AF2;
+    --apple-pink: #FF375F;
+    --apple-orange: #FF9F0A;
+    --apple-green: #30D158;
+    --apple-text-gray: #86868B;
   }
 
   body {
-    background-color: #F8FAFC;
-    color: #1E293B;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #000000;
+    color: #F5F5F7;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   #root {
@@ -24,10 +33,58 @@
     max-width: 100%;
     margin: 0;
     padding: 0;
-    text-align: left;
-    border: none;
     min-height: 100vh;
   }
+}
+
+/* Apple glowing intelligence aura animation */
+@keyframes appleAura {
+  0%, 100% {
+    transform: scale(1) translate(0px, 0px);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.12) translate(10px, -15px);
+    opacity: 0.7;
+  }
+}
+
+.animate-apple-aura {
+  animation: appleAura 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Apple text gradient utilities */
+.apple-text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #D1D1D6 40%, #86868B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.apple-intelligence-gradient {
+  background: linear-gradient(135deg, #2997FF 0%, #BF5AF2 35%, #FF375F 70%, #FF9F0A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.apple-green-gradient {
+  background: linear-gradient(135deg, #30D158 0%, #64D2FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glassmorphism */
+.apple-glass {
+  background: rgba(22, 22, 23, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.apple-glass-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Custom scrollbars */
@@ -36,21 +93,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #2C2C2E;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Animation utilities */
-@keyframes pulseSubtle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-.animate-subtle-pulse {
-  animation: pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: #48484A;
 }

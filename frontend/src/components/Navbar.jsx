@@ -9,227 +9,148 @@ import {
   Search, 
   LogOut, 
   LogIn, 
-  UserCircle2,
   Sparkles,
-  Layers,
-  FileCheck
+  ChevronRight,
+  Zap
 } from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab }) {
   const { user, isAuthenticated, logout, demoLogin } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-xs">
-      {/* National Flag Tricolor Accent Bar */}
-      <div className="h-1 w-full flex">
-        <div className="w-1/3 bg-[#FF9933]"></div>
-        <div className="w-1/3 bg-white"></div>
-        <div className="w-1/3 bg-[#138808]"></div>
+    <header className="sticky top-0 z-50 w-full">
+      {/* Top Apple-style Announcement Ribbon */}
+      <div className="bg-[#121214] border-b border-white/5 py-1.5 px-4 text-center text-[11px] text-[#A1A1A6] font-normal tracking-tight">
+        <span>Manthan Kriti 2026 &nbsp;|&nbsp; </span>
+        <span className="text-white font-medium">Prime Minister's Internship Scheme (PMIS)</span>
+        <span className="text-white/40 mx-2">•</span>
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2997FF] via-[#BF5AF2] to-[#FF375F] font-semibold">
+          Powered by Google OR-Tools AI Optimization
+        </span>
       </div>
 
-      {/* Top Banner with Gov Branding & Quick Switcher */}
-      <div className="bg-[#0B1E36] text-white px-4 py-2 text-xs flex flex-wrap items-center justify-between border-b border-slate-800">
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-1.5 font-semibold text-amber-400 tracking-wide uppercase">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Government of India</span>
-            <span className="text-slate-400">|</span>
-            <span className="text-slate-200">Ministry of Corporate Affairs</span>
-          </div>
-          <span className="hidden md:inline-block px-2 py-0.5 rounded bg-blue-900/60 text-blue-200 border border-blue-700 font-mono text-[11px]">
-            Manthan Kriti 2026 Hackathon
-          </span>
-        </div>
-
-        {/* Quick Demo Switcher Buttons */}
-        <div className="flex items-center space-x-2 mt-1 sm:mt-0">
-          <span className="text-slate-400 text-[11px] hidden lg:inline">Quick Demo Roles:</span>
-          <button
-            onClick={() => demoLogin('student')}
-            className={`px-2 py-0.5 rounded text-[11px] font-medium transition flex items-center space-x-1 ${
-              user?.role === 'student'
-                ? 'bg-emerald-600 text-white font-semibold'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-            }`}
-          >
-            <GraduationCap className="w-3 h-3" />
-            <span>Student</span>
-          </button>
-          <button
-            onClick={() => demoLogin('company')}
-            className={`px-2 py-0.5 rounded text-[11px] font-medium transition flex items-center space-x-1 ${
-              user?.role === 'company'
-                ? 'bg-amber-600 text-white font-semibold'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-            }`}
-          >
-            <Building2 className="w-3 h-3" />
-            <span>Company</span>
-          </button>
-          <button
-            onClick={() => demoLogin('admin')}
-            className={`px-2 py-0.5 rounded text-[11px] font-medium transition flex items-center space-x-1 ${
-              user?.role === 'admin'
-                ? 'bg-blue-600 text-white font-semibold'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-            }`}
-          >
-            <ShieldCheck className="w-3 h-3" />
-            <span>Admin</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo & Portal Identity */}
-          <div 
-            onClick={() => setActiveTab('home')}
-            className="flex items-center space-x-3 cursor-pointer group"
-          >
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0F2A4A] to-[#107E54] flex items-center justify-center text-white shadow-sm font-bold text-lg border border-slate-700 group-hover:scale-105 transition-transform">
-              PM
-            </div>
-            <div>
-              <div className="font-extrabold text-slate-900 text-base leading-tight flex items-center space-x-2">
-                <span>PM Internship Scheme</span>
-                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded border border-emerald-300">
-                  AI-ALLOCATION
+      {/* Main Glassmorphism Navbar */}
+      <nav className="backdrop-blur-xl bg-black/75 border-b border-white/10 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14">
+            
+            {/* Logo / Brand Name */}
+            <div 
+              onClick={() => setActiveTab('home')}
+              className="flex items-center space-x-2.5 cursor-pointer group"
+            >
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#2997FF] via-[#BF5AF2] to-[#FF375F] flex items-center justify-center text-white text-xs font-black shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform">
+                PM
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="font-semibold text-white tracking-tight text-sm group-hover:text-white/90">
+                  PM Internship
+                </span>
+                <span className="text-[10px] font-bold tracking-wider uppercase px-1.5 py-0.5 rounded-full bg-white/10 text-[#2997FF] border border-white/10">
+                  AI ALLOCATION
                 </span>
               </div>
-              <div className="text-[11px] text-slate-500 font-medium tracking-tight">
-                Large-Scale Intelligent Matching & Optimization System
-              </div>
             </div>
-          </div>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1">
-            <button
-              onClick={() => setActiveTab('home')}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition ${
-                activeTab === 'home'
-                  ? 'bg-slate-100 text-[#0F2A4A] font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              Overview
-            </button>
-
-            <button
-              onClick={() => setActiveTab('internships')}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition flex items-center space-x-1.5 ${
-                activeTab === 'internships'
-                  ? 'bg-slate-100 text-[#0F2A4A] font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <Search className="w-4 h-4 text-slate-500" />
-              <span>Internships</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('ai-matching')}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition flex items-center space-x-1.5 ${
-                activeTab === 'ai-matching'
-                  ? 'bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <Sparkles className="w-4 h-4 text-emerald-600" />
-              <span>AI Engine</span>
-            </button>
-
-            {/* Role-Specific Portals */}
-            {(!user || user.role === 'student' || user.role === 'admin') && (
-              <button
-                onClick={() => setActiveTab('student-portal')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition flex items-center space-x-1.5 ${
-                  activeTab === 'student-portal'
-                    ? 'bg-blue-50 text-blue-900 font-semibold border border-blue-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                <GraduationCap className="w-4 h-4 text-blue-600" />
-                <span>Student Portal</span>
-              </button>
-            )}
-
-            {(!user || user.role === 'company' || user.role === 'admin') && (
-              <button
-                onClick={() => setActiveTab('company-portal')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition flex items-center space-x-1.5 ${
-                  activeTab === 'company-portal'
-                    ? 'bg-amber-50 text-amber-900 font-semibold border border-amber-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                <Building2 className="w-4 h-4 text-amber-600" />
-                <span>Company Portal</span>
-              </button>
-            )}
-
-            {(!user || user.role === 'admin') && (
-              <button
-                onClick={() => setActiveTab('admin-optimization')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition flex items-center space-x-1.5 ${
-                  activeTab === 'admin-optimization'
-                    ? 'bg-purple-50 text-purple-900 font-semibold border border-purple-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                <Cpu className="w-4 h-4 text-purple-600" />
-                <span>Optimization</span>
-              </button>
-            )}
-
-            <button
-              onClick={() => setActiveTab('analytics')}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition flex items-center space-x-1.5 ${
-                activeTab === 'analytics'
-                  ? 'bg-slate-100 text-[#0F2A4A] font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <BarChart3 className="w-4 h-4 text-slate-500" />
-              <span>Analytics</span>
-            </button>
-          </nav>
-
-          {/* User Status / Auth Actions */}
-          <div className="flex items-center space-x-3">
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-3">
-                <div className="text-right hidden sm:block">
-                  <div className="text-xs font-bold text-slate-900 truncate max-w-[150px]">
-                    {user?.full_name}
-                  </div>
-                  <div className="text-[11px] text-slate-500 capitalize flex items-center justify-end space-x-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span>{user?.role}</span>
-                  </div>
-                </div>
+            {/* Navigation Tabs (Apple Subnav Style) */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {[
+                { id: 'home', label: 'Overview' },
+                { id: 'ai-matching', label: 'AI Engine', highlight: true },
+                { id: 'internships', label: 'Opportunities' },
+                { id: 'student-portal', label: 'Student' },
+                { id: 'company-portal', label: 'Enterprise' },
+                { id: 'admin-optimization', label: 'Optimization' },
+                { id: 'analytics', label: 'Analytics' },
+              ].map((tab) => (
                 <button
-                  onClick={logout}
-                  title="Logout"
-                  className="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition"
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-3 py-1 rounded-full text-xs transition-all ${
+                    activeTab === tab.id
+                      ? 'bg-white/15 text-white font-semibold shadow-xs'
+                      : tab.highlight
+                      ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#2997FF] to-[#BF5AF2] font-semibold hover:bg-white/5'
+                      : 'text-[#86868B] hover:text-white hover:bg-white/5'
+                  }`}
                 >
-                  <LogOut className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Right Action: Demo Accounts & Profile */}
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              {/* Quick Demo Role Switcher (Apple Glass Pill) */}
+              <div className="hidden sm:flex items-center p-0.5 rounded-full bg-white/5 border border-white/10 text-[11px]">
+                <button
+                  onClick={() => demoLogin('student')}
+                  className={`px-2.5 py-1 rounded-full transition font-medium ${
+                    user?.role === 'student'
+                      ? 'bg-[#30D158] text-black font-bold shadow-xs'
+                      : 'text-[#A1A1A6] hover:text-white'
+                  }`}
+                  title="Switch to Student Arjun Sharma"
+                >
+                  Student
+                </button>
+                <button
+                  onClick={() => demoLogin('company')}
+                  className={`px-2.5 py-1 rounded-full transition font-medium ${
+                    user?.role === 'company'
+                      ? 'bg-[#FF9F0A] text-black font-bold shadow-xs'
+                      : 'text-[#A1A1A6] hover:text-white'
+                  }`}
+                  title="Switch to Company TCS"
+                >
+                  Company
+                </button>
+                <button
+                  onClick={() => demoLogin('admin')}
+                  className={`px-2.5 py-1 rounded-full transition font-medium ${
+                    user?.role === 'admin'
+                      ? 'bg-[#2997FF] text-white font-bold shadow-xs'
+                      : 'text-[#A1A1A6] hover:text-white'
+                  }`}
+                  title="Switch to Admin Director"
+                >
+                  Admin
                 </button>
               </div>
-            ) : (
-              <button
-                onClick={() => setActiveTab('auth')}
-                className="px-4 py-2 rounded-lg bg-[#0F2A4A] text-white text-xs font-semibold hover:bg-[#0B1E36] transition flex items-center space-x-1.5 shadow-sm"
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                <span>Sign In / Register</span>
-              </button>
-            )}
+
+              {/* Login / User Status */}
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-2">
+                  <div className="text-right hidden md:block">
+                    <div className="text-xs font-semibold text-white truncate max-w-[120px]">
+                      {user?.full_name?.split(' ')[0]}
+                    </div>
+                    <div className="text-[10px] text-[#86868B] capitalize">
+                      {user?.role}
+                    </div>
+                  </div>
+                  <button
+                    onClick={logout}
+                    title="Sign Out"
+                    className="p-1.5 rounded-full text-[#86868B] hover:text-white hover:bg-white/10 transition"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setActiveTab('auth')}
+                  className="px-3.5 py-1.5 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-semibold transition shadow-xs flex items-center space-x-1"
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>Sign In</span>
+                </button>
+              )}
+            </div>
+
           </div>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
