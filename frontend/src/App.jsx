@@ -43,9 +43,16 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-800">
+    <div className="min-h-screen flex flex-col bg-[#090A0F] text-[#F8FAFC] relative overflow-hidden font-sans selection:bg-[#7C3AED] selection:text-white">
+      {/* Global Ambient Mesh Gradient Orbs across all pages */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-[-5%] left-[10%] w-[550px] h-[550px] rounded-full bg-[#3B1E78]/25 blur-[140px] mesh-orb-indigo"></div>
+        <div className="absolute top-[25%] right-[5%] w-[500px] h-[500px] rounded-full bg-[#00D4FF]/15 blur-[150px] mesh-orb-cyan"></div>
+        <div className="absolute top-[50%] left-[25%] w-[600px] h-[600px] rounded-full bg-[#7C3AED]/20 blur-[160px] mesh-orb-violet"></div>
+      </div>
+
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         {renderActiveView()}
       </main>
       <Footer />

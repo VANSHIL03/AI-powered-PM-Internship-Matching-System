@@ -70,9 +70,9 @@ export default function StudentDashboard({ setActiveTab }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-20 text-slate-500 bg-[#000000] min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2997FF] mr-3"></div>
-        <span>Loading student portal...</span>
+      <div className="flex flex-col items-center justify-center p-24 text-[#94A3B8] space-y-3 font-sans">
+        <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-[#00D4FF] animate-spin"></div>
+        <span>Loading candidate dashboard telemetry...</span>
       </div>
     );
   }
@@ -81,30 +81,31 @@ export default function StudentDashboard({ setActiveTab }) {
   const allocated = profile?.allocated_internship;
 
   return (
-    <div className="bg-[#000000] text-white min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-12 px-4 sm:px-6 lg:px-8 space-y-10 font-sans selection:bg-[#7C3AED] selection:text-white">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* Profile Overview Header */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#161617] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#30D158] bg-[#30D158]/15 px-3 py-0.5 rounded-full border border-[#30D158]/30">
+        {/* Profile Overview Header in Glass Panel */}
+        <div className="glass-panel p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-3 py-0.5 rounded-full border border-emerald-500/20">
                 Verified Candidate
               </span>
-              <span className="text-xs text-[#86868B]">
-                ID: <strong className="text-white">{profile?.registration_number || 'PMIS-2026'}</strong>
+              <span className="text-xs text-[#94A3B8]">
+                ID: <strong className="text-[#F8FAFC]">{profile?.registration_number || 'PMIS-2026'}</strong>
               </span>
-              <span className="text-xs text-[#86868B]">
-                Category: <strong className="text-white">{profile?.category || 'GEN'}</strong>
+              <span className="text-xs text-[#94A3B8]">
+                Category: <strong className="text-[#F8FAFC]">{profile?.category || 'GEN'}</strong>
               </span>
             </div>
-            <h1 className="text-3xl font-black apple-text-gradient mt-1">
+
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#F8FAFC] tracking-tight">
               Welcome, {profile?.full_name || user?.full_name || 'Candidate'}.
             </h1>
-            <div className="text-xs text-[#86868B] flex flex-wrap items-center gap-3 pt-0.5">
+            <div className="text-xs text-[#94A3B8] flex flex-wrap items-center gap-3 pt-0.5">
               <span>{profile?.degree} ({profile?.field_of_study})</span>
               <span>•</span>
-              <span>CGPA: <strong className="text-white">{profile?.cgpa_percentage}</strong></span>
+              <span>CGPA: <strong className="text-[#F8FAFC]">{profile?.cgpa_percentage}</strong></span>
               <span>•</span>
               <span className="flex items-center space-x-1">
                 <MapPin className="w-3.5 h-3.5 text-slate-400" />
@@ -115,63 +116,63 @@ export default function StudentDashboard({ setActiveTab }) {
 
           <button
             onClick={() => setActiveTab('student-profile')}
-            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition border border-white/10 flex items-center space-x-1.5"
+            className="btn-glass-secondary px-5 py-2.5 rounded-full text-xs space-x-1.5 shrink-0"
           >
             <span>Edit Profile & Skills</span>
-            <ArrowUpRight className="w-4 h-4 text-slate-400" />
+            <ArrowUpRight className="w-4 h-4 text-[#00D4FF]" />
           </button>
         </div>
 
         {actionMessage && (
-          <div className="p-4 rounded-2xl bg-[#2997FF]/15 border border-[#2997FF]/30 text-[#2997FF] text-xs font-semibold flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-xs font-semibold flex items-center justify-between animate-in fade-in">
             <span>{actionMessage}</span>
-            <button onClick={() => setActionMessage('')} className="text-white hover:opacity-80">✕</button>
+            <button onClick={() => setActionMessage('')} className="text-white/60 hover:text-white">✕</button>
           </div>
         )}
 
-        {/* ALLOCATION STATUS BANNER (Apple Hardware / Allotment Style) */}
+        {/* ALLOCATION STATUS BANNER */}
         {isAllocated ? (
-          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#0B2518] via-[#103D27] to-[#0A2215] border border-[#30D158]/40 relative overflow-hidden shadow-2xl">
+          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-emerald-900/30 to-[#090A0F] border border-emerald-500/30 relative overflow-hidden shadow-2xl glass-panel">
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="space-y-3 max-w-2xl">
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#30D158]/20 text-[#30D158] text-xs font-bold tracking-wide uppercase border border-[#30D158]/40">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold tracking-wide uppercase border border-emerald-500/40">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Official Internship Allotment Confirmed</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-black text-white">
+                <h2 className="text-3xl sm:text-4xl font-black text-[#F8FAFC]">
                   {allocated.title}
                 </h2>
                 <div className="text-sm font-semibold text-emerald-200 flex flex-wrap items-center gap-3">
                   <span className="flex items-center space-x-1">
-                    <Building2 className="w-4 h-4 text-[#30D158]" />
+                    <Building2 className="w-4 h-4 text-emerald-400" />
                     <span>{allocated.company_name}</span>
                   </span>
                   <span>•</span>
                   <span>{allocated.sector}</span>
                   <span>•</span>
                   <span className="flex items-center space-x-1">
-                    <MapPin className="w-4 h-4 text-[#30D158]" />
+                    <MapPin className="w-4 h-4 text-emerald-400" />
                     <span>{allocated.is_remote ? 'Remote' : allocated.location}</span>
                   </span>
                 </div>
-                <p className="text-xs text-[#86868B] leading-relaxed pt-1">
-                  Congratulations! You have been awarded an internship under the PM Internship Scheme. Your compatibility score was calculated at <strong className="text-white">{profile.allocated_score}%</strong> by the Google OR-Tools optimization engine.
+                <p className="text-xs text-[#94A3B8] leading-relaxed pt-1">
+                  Congratulations! You have been awarded an internship under the PM Internship Scheme. Your compatibility score was calculated at <strong className="text-emerald-400 font-bold">{profile.allocated_score}%</strong> by the Google OR-Tools optimization engine.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-md min-w-[220px] text-center sm:text-right space-y-2">
-                <span className="text-[10px] uppercase tracking-wider text-[#86868B] font-bold block">
+              <div className="p-6 rounded-2xl bg-black/50 border border-white/10 backdrop-blur-md min-w-[220px] text-center sm:text-right space-y-2.5">
+                <span className="text-[10px] uppercase tracking-wider text-[#94A3B8] font-bold block">
                   Monthly Stipend
                 </span>
-                <span className="text-3xl font-black text-[#30D158] block">
+                <span className="text-3xl font-extrabold text-emerald-400 block">
                   ₹{allocated.stipend_amount?.toLocaleString('en-IN')}/mo
                 </span>
-                <span className="text-xs text-[#86868B] font-medium block">
+                <span className="text-xs text-[#94A3B8] font-medium block">
                   Duration: {allocated.duration_months} Months
                 </span>
                 <button
                   onClick={() => alert(`Official Allotment Confirmation:\n\nCandidate: ${profile.full_name}\nRole: ${allocated.title}\nEnterprise: ${allocated.company_name}\nLocation: ${allocated.location}\nStipend: ₹${allocated.stipend_amount}/mo\nCompatibility Score: ${profile.allocated_score}%\nRef: ${profile.registration_number}\n\nSigned by National Allocation Director.`)}
-                  className="w-full mt-2 px-4 py-2 rounded-full bg-white text-black font-bold text-xs hover:bg-white/90 transition shadow-sm flex items-center justify-center space-x-1.5"
+                  className="btn-primary-gradient w-full mt-2 py-2 rounded-full text-xs space-x-1.5"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download Allotment Letter</span>
@@ -180,19 +181,19 @@ export default function StudentDashboard({ setActiveTab }) {
             </div>
           </div>
         ) : (
-          <div className="p-6 rounded-3xl bg-[#161617] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="glass-panel p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="space-y-1">
-              <div className="flex items-center space-x-2 text-[#FF9F0A] font-bold text-sm">
+              <div className="flex items-center space-x-2 text-amber-400 font-bold text-sm">
                 <Clock className="w-4 h-4" />
                 <span>Status: In National Allocation Pool</span>
               </div>
-              <p className="text-xs text-[#86868B] max-w-2xl leading-relaxed">
+              <p className="text-xs text-[#94A3B8] max-w-2xl leading-relaxed">
                 Your profile is active in the candidate pool. The optimization solver runs constraint-aware Integer Linear Programming to find the highest welfare match.
               </p>
             </div>
             <button
               onClick={() => setActiveTab('ai-matching')}
-              className="px-5 py-2.5 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-semibold transition shrink-0"
+              className="btn-primary-gradient px-5 py-2.5 rounded-full text-xs font-semibold shrink-0"
             >
               Check Compatibility Matrix
             </button>
@@ -200,48 +201,48 @@ export default function StudentDashboard({ setActiveTab }) {
         )}
 
         {/* AI Recommendations */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-xl font-bold apple-text-gradient">
+              <h3 className="text-2xl font-bold text-[#F8FAFC]">
                 Personalized AI Recommendations
               </h3>
-              <p className="text-xs text-[#86868B]">
+              <p className="text-xs text-[#94A3B8]">
                 Ranked by multi-criteria compatibility against your verified skills and preferences.
               </p>
             </div>
 
             <button
               onClick={() => setActiveTab('internships')}
-              className="text-xs font-semibold text-[#2997FF] hover:underline flex items-center space-x-1"
+              className="text-xs font-semibold text-[#00D4FF] hover:underline flex items-center space-x-1"
             >
               <span>View All Vacancies</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {matches.slice(0, 6).map((item) => {
               const hasApplied = applications.some(a => a.internship_id === item.internship_id);
               return (
                 <div 
                   key={item.internship_id}
-                  className="p-6 rounded-3xl bg-[#161617] border border-white/10 hover:border-white/25 transition-all flex flex-col justify-between"
+                  className="bento-card-interactive p-6 flex flex-col justify-between group"
                 >
                   <div>
                     <div className="flex items-start justify-between gap-2 mb-3">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#2997FF] bg-[#2997FF]/15 px-2.5 py-0.5 rounded-full border border-[#2997FF]/30">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#00D4FF] bg-[#00D4FF]/10 px-2.5 py-0.5 rounded-full border border-[#00D4FF]/25">
                         {item.sector}
                       </span>
                       
                       <button
                         onClick={() => handleOpenBreakdown(item)}
-                        className={`px-3 py-1 rounded-full text-xs font-black border transition flex items-center space-x-1 ${
+                        className={`px-3 py-1 rounded-full text-xs font-bold border transition-all flex items-center space-x-1 ${
                           item.total_score >= 80 
-                            ? 'bg-[#30D158]/15 text-[#30D158] border-[#30D158]/30 hover:bg-[#30D158]/25'
+                            ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25'
                             : item.total_score >= 65
-                            ? 'bg-[#2997FF]/15 text-[#2997FF] border-[#2997FF]/30 hover:bg-[#2997FF]/25'
-                            : 'bg-[#FF9F0A]/15 text-[#FF9F0A] border-[#FF9F0A]/30 hover:bg-[#FF9F0A]/25'
+                            ? 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/25'
+                            : 'bg-amber-500/15 text-amber-400 border-amber-500/30 hover:bg-amber-500/25'
                         }`}
                       >
                         <Sparkles className="w-3 h-3" />
@@ -249,25 +250,25 @@ export default function StudentDashboard({ setActiveTab }) {
                       </button>
                     </div>
 
-                    <h4 className="text-base font-bold text-white line-clamp-1">
+                    <h4 className="text-base font-bold text-[#F8FAFC] group-hover:text-[#00D4FF] transition-colors line-clamp-1">
                       {item.internship_title}
                     </h4>
-                    <div className="text-xs text-[#86868B] font-medium mb-3">
+                    <div className="text-xs text-[#94A3B8] font-medium mb-3">
                       {item.company_name}
                     </div>
 
-                    <div className="flex items-center space-x-2 text-xs text-[#86868B] mb-4">
+                    <div className="flex items-center space-x-2 text-xs text-[#94A3B8] mb-4">
                       <MapPin className="w-3.5 h-3.5 text-slate-400" />
                       <span>{item.is_remote ? 'Remote' : item.location}</span>
                       <span>•</span>
-                      <span className="font-bold text-[#30D158]">₹{item.stipend_amount?.toLocaleString('en-IN')}/mo</span>
+                      <span className="font-bold text-emerald-400">₹{item.stipend_amount?.toLocaleString('en-IN')}/mo</span>
                     </div>
 
                     <div className="mb-4">
-                      <div className="text-[10px] font-semibold text-[#86868B] uppercase mb-1">Skills Matched:</div>
-                      <div className="flex flex-wrap gap-1">
+                      <div className="text-[10px] font-semibold text-[#94A3B8] uppercase mb-1.5">Skills Matched:</div>
+                      <div className="flex flex-wrap gap-1.5">
                         {item.skills_matched.slice(0, 3).map((s, idx) => (
-                          <span key={idx} className="text-[10px] font-medium bg-white/5 text-[#30D158] px-2 py-0.5 rounded-full border border-[#30D158]/20">
+                          <span key={idx} className="text-[10px] font-medium bg-white/[0.04] text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">
                             {s}
                           </span>
                         ))}
@@ -278,7 +279,7 @@ export default function StudentDashboard({ setActiveTab }) {
                   <div className="pt-3 border-t border-white/10 flex items-center justify-between">
                     <button
                       onClick={() => handleOpenBreakdown(item)}
-                      className="text-xs text-[#86868B] hover:text-white font-semibold"
+                      className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] font-semibold transition-colors"
                     >
                       Explain Score
                     </button>
@@ -286,13 +287,13 @@ export default function StudentDashboard({ setActiveTab }) {
                     <button
                       onClick={() => handleApply(item.internship_id)}
                       disabled={hasApplied || applyingId === item.internship_id || !item.eligible}
-                      className={`px-4 py-1.5 rounded-full text-xs font-bold transition ${
-                        hasApplied 
-                          ? 'bg-white/10 text-slate-500 cursor-not-allowed'
+                      className={
+                        hasApplied
+                          ? "px-4 py-1.5 rounded-full text-xs font-bold bg-white/10 text-slate-500 cursor-not-allowed"
                           : !item.eligible
-                          ? 'bg-rose-500/10 text-rose-400 cursor-not-allowed border border-rose-500/20'
-                          : 'bg-[#0071E3] hover:bg-[#0077ED] text-white shadow-xs'
-                      }`}
+                          ? "px-4 py-1.5 rounded-full text-xs font-bold bg-rose-500/10 text-rose-400 cursor-not-allowed border border-rose-500/20"
+                          : "btn-primary-gradient px-4 py-1.5 rounded-full text-xs font-bold"
+                      }
                     >
                       <span>{hasApplied ? 'Applied' : !item.eligible ? 'Ineligible' : 'Apply'}</span>
                     </button>
@@ -305,15 +306,15 @@ export default function StudentDashboard({ setActiveTab }) {
 
         {/* Application History */}
         {applications.length > 0 && (
-          <div className="p-6 rounded-3xl bg-[#161617] border border-white/10 space-y-4">
-            <h3 className="text-base font-bold text-white flex items-center space-x-2">
-              <FileCheck className="w-5 h-5 text-[#2997FF]" />
+          <div className="glass-panel p-6 space-y-4">
+            <h3 className="text-base font-bold text-[#F8FAFC] flex items-center space-x-2">
+              <FileCheck className="w-5 h-5 text-[#00D4FF]" />
               <span>Application Submissions ({applications.length})</span>
             </h3>
 
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-black/40 text-[#86868B] font-semibold uppercase tracking-wider border-b border-white/10">
+                <thead className="bg-white/[0.02] text-[#94A3B8] font-semibold uppercase tracking-wider border-b border-white/10">
                   <tr>
                     <th className="py-2.5 px-3">Internship Title</th>
                     <th className="py-2.5 px-3">Enterprise</th>
@@ -325,14 +326,14 @@ export default function StudentDashboard({ setActiveTab }) {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {applications.map((app) => (
-                    <tr key={app.id} className="hover:bg-white/5">
-                      <td className="py-3 px-3 font-bold text-white">{app.title}</td>
+                    <tr key={app.id} className="hover:bg-white/[0.03] transition-colors">
+                      <td className="py-3 px-3 font-bold text-[#F8FAFC]">{app.title}</td>
                       <td className="py-3 px-3 text-slate-300">{app.company_name}</td>
-                      <td className="py-3 px-3 text-[#86868B]">{app.is_remote ? 'Remote' : app.location}</td>
-                      <td className="py-3 px-3 font-semibold text-[#30D158]">₹{app.stipend_amount?.toLocaleString('en-IN')}/mo</td>
-                      <td className="py-3 px-3 font-extrabold text-white">{Math.round(app.match_score)}%</td>
+                      <td className="py-3 px-3 text-[#94A3B8]">{app.is_remote ? 'Remote' : app.location}</td>
+                      <td className="py-3 px-3 font-semibold text-emerald-400">₹{app.stipend_amount?.toLocaleString('en-IN')}/mo</td>
+                      <td className="py-3 px-3 font-extrabold text-[#F8FAFC]">{Math.round(app.match_score)}%</td>
                       <td className="py-3 px-3">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#2997FF]/20 text-[#2997FF] border border-[#2997FF]/30">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30">
                           {app.status}
                         </span>
                       </td>

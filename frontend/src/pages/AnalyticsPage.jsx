@@ -51,9 +51,9 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-[70vh] bg-[#000000] flex flex-col items-center justify-center text-[#86868B] space-y-4">
-        <div className="w-10 h-10 rounded-full border-2 border-white/20 border-t-[#2997FF] animate-spin"></div>
-        <span className="text-xs font-medium tracking-wide">Synthesizing national allocation telemetry & welfare metrics...</span>
+      <div className="flex flex-col items-center justify-center p-24 text-[#94A3B8] space-y-3 font-sans">
+        <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-[#00D4FF] animate-spin"></div>
+        <span>Synthesizing national allocation telemetry & welfare metrics...</span>
       </div>
     );
   }
@@ -77,24 +77,26 @@ export default function AnalyticsPage() {
   const scoreData = data?.score_distribution || [];
 
   const allocationPieData = [
-    { name: 'Allocated Seats', value: data?.total_allocated || 0, color: '#30D158' },
-    { name: 'Remaining Vacant', value: data?.remaining_vacant_seats || 0, color: '#2C2C2E' },
+    { name: 'Allocated Seats', value: data?.total_allocated || 0, color: '#34D399' },
+    { name: 'Remaining Vacant', value: data?.remaining_vacant_seats || 0, color: '#1E293B' },
   ];
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#F5F5F7] py-12 px-4 sm:px-6 lg:px-8 space-y-10 selection:bg-[#2997FF] selection:text-white">
+    <div className="py-12 px-4 sm:px-6 lg:px-8 space-y-10 font-sans selection:bg-[#7C3AED] selection:text-white">
       
       {/* Title & Header Section */}
-      <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6 pb-4 border-b border-white/10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6 pb-4 border-b border-white/10">
         <div className="space-y-3">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs text-white/90 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#2997FF]" />
-            <span className="font-semibold tracking-wide">National Welfare Intelligence</span>
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/15 text-xs text-[#F8FAFC] backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#00D4FF]" />
+            <span className="font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#C084FC]">
+              National Welfare Intelligence
+            </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-[#F5F5F7]">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#F8FAFC]">
             Analytics, Fill Rates & Quota Auditing
           </h1>
-          <p className="text-sm text-[#86868B] max-w-2xl leading-relaxed">
+          <p className="text-sm text-[#94A3B8] max-w-2xl leading-relaxed">
             Real-time OR-Tools solver metrics, sector absorption indices, affirmative reservation enforcement, and candidate welfare compatibility scores.
           </p>
         </div>
@@ -103,7 +105,7 @@ export default function AnalyticsPage() {
           <a
             href={allocationsAPI.getExportCsvUrl(data.latest_run_id)}
             download
-            className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#2997FF] hover:bg-[#0071E3] text-white text-xs font-semibold tracking-wide transition shadow-lg shadow-[#2997FF]/25 hover:scale-[1.02] active:scale-[0.98]"
+            className="btn-primary-gradient px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide space-x-2"
           >
             <Download className="w-4 h-4" />
             <span>Export Official CSV Ledger</span>
@@ -114,65 +116,65 @@ export default function AnalyticsPage() {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* KPI Overview Grid - Bento Style */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3.5">
-          <div className="bg-[#161617] p-4 rounded-2xl border border-white/10 hover:border-white/20 transition">
-            <span className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider block">Applicants</span>
-            <div className="text-2xl font-bold tracking-tight text-[#F5F5F7] mt-1">{data?.total_students}</div>
-            <span className="text-[10px] text-[#2997FF] font-medium flex items-center space-x-1 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2997FF]"></span>
+          <div className="glass-panel p-4 glass-panel-hover">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block">Applicants</span>
+            <div className="text-2xl font-bold tracking-tight text-[#F8FAFC] mt-1">{data?.total_students}</div>
+            <span className="text-[10px] text-[#00D4FF] font-medium flex items-center space-x-1 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF]"></span>
               <span>Registered Pool</span>
             </span>
           </div>
 
-          <div className="bg-[#161617] p-4 rounded-2xl border border-white/10 hover:border-white/20 transition">
-            <span className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider block">Enterprises</span>
-            <div className="text-2xl font-bold tracking-tight text-[#F5F5F7] mt-1">{data?.total_companies}</div>
-            <span className="text-[10px] text-[#86868B] font-medium flex items-center space-x-1 mt-1">
+          <div className="glass-panel p-4 glass-panel-hover">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block">Enterprises</span>
+            <div className="text-2xl font-bold tracking-tight text-[#F8FAFC] mt-1">{data?.total_companies}</div>
+            <span className="text-[10px] text-[#94A3B8] font-medium flex items-center space-x-1 mt-1">
               <span className="w-1.5 h-1.5 rounded-full bg-white/40"></span>
               <span>Top Corporates</span>
             </span>
           </div>
 
-          <div className="bg-[#161617] p-4 rounded-2xl border border-white/10 hover:border-white/20 transition">
-            <span className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider block">Approved Seats</span>
-            <div className="text-2xl font-bold tracking-tight text-[#BF5AF2] mt-1">{data?.total_vacancies}</div>
-            <span className="text-[10px] text-[#BF5AF2]/80 font-medium flex items-center space-x-1 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#BF5AF2]"></span>
+          <div className="glass-panel p-4 glass-panel-hover">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block">Approved Seats</span>
+            <div className="text-2xl font-bold tracking-tight text-[#C084FC] mt-1">{data?.total_vacancies}</div>
+            <span className="text-[10px] text-[#C084FC]/80 font-medium flex items-center space-x-1 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C084FC]"></span>
               <span>Capacity Pool</span>
             </span>
           </div>
 
-          <div className="bg-[#161617] p-4 rounded-2xl border border-white/10 hover:border-white/20 transition">
-            <span className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider block">Allocated</span>
-            <div className="text-2xl font-bold tracking-tight text-[#30D158] mt-1">{data?.total_allocated}</div>
-            <span className="text-[10px] text-[#30D158]/80 font-medium flex items-center space-x-1 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+          <div className="glass-panel p-4 glass-panel-hover">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block">Allocated</span>
+            <div className="text-2xl font-bold tracking-tight text-emerald-400 mt-1">{data?.total_allocated}</div>
+            <span className="text-[10px] text-emerald-400/80 font-medium flex items-center space-x-1 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               <span>Matched Seats</span>
             </span>
           </div>
 
-          <div className="bg-[#161617] p-4 rounded-2xl border border-white/10 hover:border-white/20 transition">
-            <span className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider block">Vacant Seats</span>
-            <div className="text-2xl font-bold tracking-tight text-[#86868B] mt-1">{data?.remaining_vacant_seats}</div>
-            <span className="text-[10px] text-[#86868B] font-medium flex items-center space-x-1 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#86868B]"></span>
+          <div className="glass-panel p-4 glass-panel-hover">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block">Vacant Seats</span>
+            <div className="text-2xl font-bold tracking-tight text-[#94A3B8] mt-1">{data?.remaining_vacant_seats}</div>
+            <span className="text-[10px] text-[#94A3B8] font-medium flex items-center space-x-1 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#94A3B8]"></span>
               <span>Remaining</span>
             </span>
           </div>
 
-          <div className="bg-[#161617] p-4 rounded-2xl border border-white/10 hover:border-white/20 transition">
-            <span className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider block">Unallocated</span>
-            <div className="text-2xl font-bold tracking-tight text-[#FF9F0A] mt-1">{data?.unallocated_students}</div>
-            <span className="text-[10px] text-[#FF9F0A]/80 font-medium flex items-center space-x-1 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF9F0A]"></span>
+          <div className="glass-panel p-4 glass-panel-hover">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block">Unallocated</span>
+            <div className="text-2xl font-bold tracking-tight text-amber-400 mt-1">{data?.unallocated_students}</div>
+            <span className="text-[10px] text-amber-400/80 font-medium flex items-center space-x-1 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
               <span>Waitlisted Pool</span>
             </span>
           </div>
 
-          <div className="bg-[#161617] p-4 rounded-2xl border border-white/10 hover:border-white/20 transition">
-            <span className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider block">Welfare Score</span>
-            <div className="text-2xl font-bold tracking-tight text-[#2997FF] mt-1">{data?.average_compatibility_score}%</div>
-            <span className="text-[10px] text-[#30D158] font-medium flex items-center space-x-1 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#30D158]"></span>
+          <div className="glass-panel p-4 glass-panel-hover">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block">Welfare Score</span>
+            <div className="text-2xl font-bold tracking-tight text-[#00D4FF] mt-1">{data?.average_compatibility_score}%</div>
+            <span className="text-[10px] text-emerald-400 font-medium flex items-center space-x-1 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               <span>Mean Pareto Index</span>
             </span>
           </div>
@@ -181,50 +183,50 @@ export default function AnalyticsPage() {
         {/* Charts Section 1: Sector Distribution & National Capacity Utilization */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Sector Bar Chart */}
-          <div className="lg:col-span-2 bg-[#161617] p-6 sm:p-7 rounded-3xl border border-white/10 space-y-6">
+          <div className="lg:col-span-2 glass-panel p-6 sm:p-7 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-base font-semibold text-[#F5F5F7] flex items-center space-x-2">
-                  <BarChart3 className="w-4 h-4 text-[#2997FF]" />
+                <h3 className="text-base font-bold text-[#F8FAFC] flex items-center space-x-2">
+                  <BarChart3 className="w-4 h-4 text-[#00D4FF]" />
                   <span>Sector-Wise Vacancy & Absorption Spectrum</span>
                 </h3>
-                <p className="text-xs text-[#86868B] mt-0.5">Approved enterprise quotas versus executed candidate allotments by sector.</p>
+                <p className="text-xs text-[#94A3B8] mt-0.5">Approved enterprise quotas versus executed candidate allotments by sector.</p>
               </div>
             </div>
 
             <div className="h-72 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={sectorData} margin={{ top: 10, right: 10, left: -20, bottom: 25 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2C2C2E" vertical={false} />
-                  <XAxis dataKey="name" angle={-15} textAnchor="end" interval={0} tick={{ fontSize: 10, fill: '#86868B' }} stroke="#3A3A3C" />
-                  <YAxis tick={{ fontSize: 10, fill: '#86868B' }} stroke="#3A3A3C" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" vertical={false} />
+                  <XAxis dataKey="name" angle={-15} textAnchor="end" interval={0} tick={{ fontSize: 10, fill: '#94A3B8' }} stroke="#334155" />
+                  <YAxis tick={{ fontSize: 10, fill: '#94A3B8' }} stroke="#334155" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1C1C1E', 
+                      backgroundColor: '#0F172A', 
                       borderRadius: '14px', 
                       border: '1px solid rgba(255,255,255,0.15)', 
                       fontSize: '11px',
-                      color: '#F5F5F7',
+                      color: '#F8FAFC',
                       boxShadow: '0 10px 25px -5px rgba(0,0,0,0.6)'
                     }}
                     cursor={{ fill: 'rgba(255,255,255,0.03)' }}
                   />
-                  <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px', color: '#86868B' }} />
-                  <Bar dataKey="Total" fill="#3A3A3C" name="Total Approved Seats" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="Allocated" fill="#2997FF" name="Allotted Candidates" radius={[6, 6, 0, 0]} />
+                  <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px', color: '#94A3B8' }} />
+                  <Bar dataKey="Total" fill="#334155" name="Total Approved Seats" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="Allocated" fill="#6366F1" name="Allotted Candidates" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
           {/* Allocation Utilization Gauge */}
-          <div className="bg-[#161617] p-6 sm:p-7 rounded-3xl border border-white/10 space-y-6 flex flex-col justify-between">
+          <div className="glass-panel p-6 sm:p-7 space-y-6 flex flex-col justify-between">
             <div>
-              <h3 className="text-base font-semibold text-[#F5F5F7] flex items-center space-x-2">
-                <PieIcon className="w-4 h-4 text-[#30D158]" />
+              <h3 className="text-base font-bold text-[#F8FAFC] flex items-center space-x-2">
+                <PieIcon className="w-4 h-4 text-emerald-400" />
                 <span>National Fill Efficiency</span>
               </h3>
-              <p className="text-xs text-[#86868B] mt-0.5">Overall matching yield of approved vacancies.</p>
+              <p className="text-xs text-[#94A3B8] mt-0.5">Overall matching yield of approved vacancies.</p>
             </div>
 
             <div className="h-56 relative flex items-center justify-center">
@@ -238,7 +240,7 @@ export default function AnalyticsPage() {
                     outerRadius={90}
                     paddingAngle={4}
                     dataKey="value"
-                    stroke="#161617"
+                    stroke="#090A0F"
                     strokeWidth={3}
                   >
                     {allocationPieData.map((entry, index) => (
@@ -247,23 +249,23 @@ export default function AnalyticsPage() {
                   </Pie>
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1C1C1E', 
+                      backgroundColor: '#0F172A', 
                       borderRadius: '12px', 
                       border: '1px solid rgba(255,255,255,0.15)', 
                       fontSize: '11px',
-                      color: '#F5F5F7'
+                      color: '#F8FAFC'
                     }}
                   />
                 </PieChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-3xl font-bold tracking-tight text-[#F5F5F7]">{data?.allocation_rate_percentage}%</span>
-                <span className="text-[10px] text-[#30D158] font-semibold uppercase tracking-wider mt-0.5">Fulfilled</span>
+                <span className="text-3xl font-extrabold tracking-tight text-[#F8FAFC]">{data?.allocation_rate_percentage}%</span>
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mt-0.5">Fulfilled</span>
               </div>
             </div>
 
-            <div className="text-center text-xs text-[#86868B] border-t border-white/10 pt-4">
-              <span className="text-[#F5F5F7] font-semibold">{data?.total_allocated}</span> of <span className="text-[#F5F5F7] font-semibold">{data?.total_vacancies}</span> total vacancies filled with zero conflict.
+            <div className="text-center text-xs text-[#94A3B8] border-t border-white/10 pt-4">
+              <span className="text-[#F8FAFC] font-semibold">{data?.total_allocated}</span> of <span className="text-[#F8FAFC] font-semibold">{data?.total_vacancies}</span> total vacancies filled with zero conflict.
             </div>
           </div>
         </div>
@@ -271,67 +273,67 @@ export default function AnalyticsPage() {
         {/* Charts Section 2: Reservation Quota Compliance & Score Histogram */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Category-wise Reservation Compliance */}
-          <div className="bg-[#161617] p-6 sm:p-7 rounded-3xl border border-white/10 space-y-6">
+          <div className="glass-panel p-6 sm:p-7 space-y-6">
             <div>
-              <h3 className="text-base font-semibold text-[#F5F5F7] flex items-center space-x-2">
-                <Award className="w-4 h-4 text-[#BF5AF2]" />
+              <h3 className="text-base font-bold text-[#F8FAFC] flex items-center space-x-2">
+                <Award className="w-4 h-4 text-[#C084FC]" />
                 <span>Affirmative Reservation Compliance</span>
               </h3>
-              <p className="text-xs text-[#86868B] mt-0.5">Audit trail confirming quota targets across all social categories.</p>
+              <p className="text-xs text-[#94A3B8] mt-0.5">Audit trail confirming quota targets across all social categories.</p>
             </div>
 
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={categoryData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2C2C2E" vertical={false} />
-                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#86868B' }} stroke="#3A3A3C" />
-                  <YAxis tick={{ fontSize: 10, fill: '#86868B' }} stroke="#3A3A3C" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" vertical={false} />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#94A3B8' }} stroke="#334155" />
+                  <YAxis tick={{ fontSize: 10, fill: '#94A3B8' }} stroke="#334155" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1C1C1E', 
+                      backgroundColor: '#0F172A', 
                       borderRadius: '12px', 
                       border: '1px solid rgba(255,255,255,0.15)', 
                       fontSize: '11px',
-                      color: '#F5F5F7'
+                      color: '#F8FAFC'
                     }}
                     cursor={{ fill: 'rgba(255,255,255,0.03)' }}
                   />
-                  <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px', color: '#86868B' }} />
-                  <Bar dataKey="Registered" fill="#48484A" name="Applicant Pool" radius={[5, 5, 0, 0]} />
-                  <Bar dataKey="Allocated" fill="#BF5AF2" name="Allotted" radius={[5, 5, 0, 0]} />
-                  <Bar dataKey="QuotaTarget" fill="#FF9F0A" name="Target Quota" radius={[5, 5, 0, 0]} />
+                  <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px', color: '#94A3B8' }} />
+                  <Bar dataKey="Registered" fill="#475569" name="Applicant Pool" radius={[5, 5, 0, 0]} />
+                  <Bar dataKey="Allocated" fill="#C084FC" name="Allotted" radius={[5, 5, 0, 0]} />
+                  <Bar dataKey="QuotaTarget" fill="#F59E0B" name="Target Quota" radius={[5, 5, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
           {/* Compatibility Score Histogram */}
-          <div className="bg-[#161617] p-6 sm:p-7 rounded-3xl border border-white/10 space-y-6">
+          <div className="glass-panel p-6 sm:p-7 space-y-6">
             <div>
-              <h3 className="text-base font-semibold text-[#F5F5F7] flex items-center space-x-2">
-                <TrendingUp className="w-4 h-4 text-[#30D158]" />
+              <h3 className="text-base font-bold text-[#F8FAFC] flex items-center space-x-2">
+                <TrendingUp className="w-4 h-4 text-emerald-400" />
                 <span>Welfare Compatibility Distribution</span>
               </h3>
-              <p className="text-xs text-[#86868B] mt-0.5">Pareto score histogram showing high match quality across assignments.</p>
+              <p className="text-xs text-[#94A3B8] mt-0.5">Pareto score histogram showing high match quality across assignments.</p>
             </div>
 
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={scoreData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2C2C2E" vertical={false} />
-                  <XAxis dataKey="range" tick={{ fontSize: 11, fill: '#86868B' }} stroke="#3A3A3C" />
-                  <YAxis tick={{ fontSize: 10, fill: '#86868B' }} stroke="#3A3A3C" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" vertical={false} />
+                  <XAxis dataKey="range" tick={{ fontSize: 11, fill: '#94A3B8' }} stroke="#334155" />
+                  <YAxis tick={{ fontSize: 10, fill: '#94A3B8' }} stroke="#334155" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1C1C1E', 
+                      backgroundColor: '#0F172A', 
                       borderRadius: '12px', 
                       border: '1px solid rgba(255,255,255,0.15)', 
                       fontSize: '11px',
-                      color: '#F5F5F7'
+                      color: '#F8FAFC'
                     }}
                     cursor={{ fill: 'rgba(255,255,255,0.03)' }}
                   />
-                  <Bar dataKey="count" fill="#30D158" name="Allotments in Score Tier" radius={[5, 5, 0, 0]} />
+                  <Bar dataKey="count" fill="#34D399" name="Allotments in Score Tier" radius={[5, 5, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -339,18 +341,18 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Audit Assurance Card */}
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#161617] via-[#1C1C1E] to-[#161617] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="glass-panel p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-3.5">
-            <div className="w-10 h-10 rounded-full bg-[#30D158]/10 border border-[#30D158]/30 flex items-center justify-center text-[#30D158]">
+            <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-sm font-semibold text-[#F5F5F7]">Cryptographic Allocation Immutability</div>
-              <div className="text-xs text-[#86868B]">Every assignment run is logged with an immutable execution timestamp, solver optimality gap &lt; 0.01%, and verifiable audit trail.</div>
+              <div className="text-sm font-bold text-[#F8FAFC]">Cryptographic Allocation Immutability</div>
+              <div className="text-xs text-[#94A3B8]">Every assignment run is logged with an immutable execution timestamp, solver optimality gap &lt; 0.01%, and verifiable audit trail.</div>
             </div>
           </div>
-          <div className="flex items-center space-x-2 text-xs text-[#30D158] font-medium bg-[#30D158]/10 px-3.5 py-1.5 rounded-full border border-[#30D158]/20 shrink-0">
-            <CheckCircle2 className="w-3.5 h-3.5" />
+          <div className="flex items-center space-x-2 text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-4 py-2 rounded-full border border-emerald-500/20 shrink-0">
+            <CheckCircle2 className="w-4 h-4" />
             <span>Audit Certified</span>
           </div>
         </div>

@@ -13,7 +13,8 @@ import {
   Search, 
   Check, 
   AlertCircle,
-  UserX
+  UserX,
+  Sparkles
 } from 'lucide-react';
 
 export default function AllocationManagementPage() {
@@ -190,34 +191,34 @@ export default function AllocationManagementPage() {
   });
 
   return (
-    <div className="bg-[#000000] text-white min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-12 px-4 sm:px-6 lg:px-8 space-y-10 font-sans selection:bg-[#7C3AED] selection:text-white">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Header */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#161617] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="space-y-1">
+        <div className="glass-panel p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
             <div className="flex items-center space-x-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#BF5AF2] bg-[#BF5AF2]/15 px-3 py-0.5 rounded-full border border-[#BF5AF2]/30 flex items-center space-x-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#C084FC] bg-purple-500/10 px-3 py-0.5 rounded-full border border-purple-500/20 flex items-center space-x-1">
                 <Cpu className="w-3.5 h-3.5" />
                 <span>Google OR-Tools Control Center</span>
               </span>
-              <span className="text-xs text-[#86868B]">
-                Solver: <strong className="text-white">SCIP Mixed-Integer Linear Programming</strong>
+              <span className="text-xs text-[#94A3B8]">
+                Solver: <strong className="text-[#F8FAFC]">SCIP Mixed-Integer Linear Programming</strong>
               </span>
             </div>
-            <h1 className="text-3xl font-black apple-text-gradient mt-1">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#F8FAFC] tracking-tight">
               Optimization Engine.
             </h1>
-            <p className="text-xs text-[#86868B]">
+            <p className="text-xs text-[#94A3B8]">
               Configure multi-criteria weights, trigger Integer Linear Programming allocation, audit conflict diagnostics, and approve the national allocation ledger.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={handleRunOptimization}
               disabled={runningSolver}
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#2997FF] via-[#BF5AF2] to-[#FF375F] text-white text-xs font-bold transition shadow-lg shadow-purple-500/25 flex items-center space-x-2 disabled:opacity-50 hover:scale-[1.02]"
+              className="btn-primary-gradient px-6 py-2.5 rounded-full text-xs font-bold space-x-2 disabled:opacity-50"
             >
               <Play className={`w-3.5 h-3.5 ${runningSolver ? 'animate-spin' : ''}`} />
               <span>{runningSolver ? 'Solving...' : 'Run Optimization'}</span>
@@ -227,7 +228,7 @@ export default function AllocationManagementPage() {
               <a
                 href={allocationsAPI.getExportCsvUrl(selectedRunId)}
                 download
-                className="px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition border border-white/15 flex items-center space-x-1.5"
+                className="btn-glass-secondary px-4 py-2.5 rounded-full text-xs space-x-1.5"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Export CSV</span>
@@ -238,71 +239,71 @@ export default function AllocationManagementPage() {
               onClick={handleReset}
               disabled={resetting}
               title="Reset allocations to pool"
-              className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition"
+              className="p-2.5 rounded-full bg-white/[0.04] hover:bg-white/[0.1] text-white border border-white/10 transition"
             >
-              <RotateCcw className="w-4 h-4 text-[#86868B]" />
+              <RotateCcw className="w-4 h-4 text-[#94A3B8]" />
             </button>
           </div>
         </div>
 
         {message && (
-          <div className="p-4 rounded-2xl bg-[#30D158]/15 border border-[#30D158]/30 text-[#30D158] text-xs font-semibold flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center justify-between animate-in fade-in">
             <div className="flex items-center space-x-2">
               <Check className="w-4 h-4" />
               <span>{message}</span>
             </div>
-            <button onClick={() => setMessage('')} className="text-white hover:opacity-80">✕</button>
+            <button onClick={() => setMessage('')} className="text-white/60 hover:text-white">✕</button>
           </div>
         )}
 
         {errorMessage && (
-          <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-semibold flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-semibold flex items-center justify-between animate-in fade-in">
             <div className="flex items-center space-x-2">
               <AlertCircle className="w-4 h-4" />
               <span>{errorMessage}</span>
             </div>
-            <button onClick={() => setErrorMessage('')} className="text-white hover:opacity-80">✕</button>
+            <button onClick={() => setErrorMessage('')} className="text-white/60 hover:text-white">✕</button>
           </div>
         )}
 
         {/* 2 Column Layout: Settings & Telemetry */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          {/* Left: Weight Tuning (Apple Sliders) */}
+          {/* Left: Weight Tuning */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#161617] border border-white/10 space-y-5">
+            <div className="glass-panel p-6 sm:p-8 space-y-5">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
-                  <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                    <Sliders className="w-4 h-4 text-[#2997FF]" />
+                  <h3 className="text-sm font-bold text-[#F8FAFC] flex items-center space-x-2">
+                    <Sliders className="w-4 h-4 text-[#00D4FF]" />
                     <span>Multi-Criteria Weights Tuning</span>
                   </h3>
-                  <p className="text-xs text-[#86868B]">
+                  <p className="text-xs text-[#94A3B8]">
                     Dynamic weight allocation across candidate dimensions (Normalized to 100%).
                   </p>
                 </div>
                 <span className={`text-xs font-bold px-3 py-1 rounded-full ${
                   Math.round(totalWeight) === 100 
-                    ? 'bg-[#30D158]/20 text-[#30D158]' 
-                    : 'bg-[#FF9F0A]/20 text-[#FF9F0A]'
+                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' 
+                    : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
                 }`}>
                   Sum: {Math.round(totalWeight)}%
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 {[
-                  { key: 'skills', label: '1. Skill Compatibility', color: 'accent-[#FF9F0A]' },
-                  { key: 'preferences', label: '2. Student Preferences', color: 'accent-[#2997FF]' },
-                  { key: 'location', label: '3. Location Proximity', color: 'accent-[#30D158]' },
-                  { key: 'education', label: '4. Education & CGPA Merit', color: 'accent-[#BF5AF2]' },
-                  { key: 'experience', label: '5. Experience & Projects', color: 'accent-[#FF375F]' },
-                  { key: 'other', label: '6. Diversity Factors', color: 'accent-[#64D2FF]' },
+                  { key: 'skills', label: '1. Skill Compatibility', color: 'accent-[#6366F1]' },
+                  { key: 'preferences', label: '2. Student Preferences', color: 'accent-[#00D4FF]' },
+                  { key: 'location', label: '3. Location Proximity', color: 'accent-emerald-400' },
+                  { key: 'education', label: '4. Education & CGPA Merit', color: 'accent-[#C084FC]' },
+                  { key: 'experience', label: '5. Experience & Projects', color: 'accent-rose-400' },
+                  { key: 'other', label: '6. Diversity Factors', color: 'accent-amber-400' },
                 ].map((item) => (
-                  <div key={item.key} className="space-y-1.5 p-3 rounded-2xl bg-black/40 border border-white/5">
+                  <div key={item.key} className="space-y-1.5 p-3.5 rounded-2xl bg-black/40 border border-white/5">
                     <div className="flex justify-between font-medium">
-                      <span className="text-slate-300">{item.label}</span>
-                      <span className="font-bold text-white">{weights[item.key]}%</span>
+                      <span className="text-[#F8FAFC]">{item.label}</span>
+                      <span className="font-bold text-[#00D4FF]">{weights[item.key]}%</span>
                     </div>
                     <input
                       type="range"
@@ -320,7 +321,7 @@ export default function AllocationManagementPage() {
               <div className="flex justify-end pt-2">
                 <button
                   onClick={handleSaveWeights}
-                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition"
+                  className="btn-glass-secondary px-4 py-2 rounded-full text-xs font-semibold"
                 >
                   Save Parameter Weights
                 </button>
@@ -328,9 +329,9 @@ export default function AllocationManagementPage() {
             </div>
 
             {/* Quota Rules */}
-            <div className="p-6 rounded-3xl bg-[#161617] border border-white/10 space-y-3">
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2 border-b border-white/10 pb-3">
-                <ShieldCheck className="w-4 h-4 text-[#30D158]" />
+            <div className="glass-panel p-6 space-y-3">
+              <h3 className="text-xs font-bold text-[#F8FAFC] uppercase tracking-wider flex items-center space-x-2 border-b border-white/10 pb-3">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <span>Reservation Rules & Quota Constraint Settings</span>
               </h3>
 
@@ -340,11 +341,11 @@ export default function AllocationManagementPage() {
                     type="checkbox"
                     checked={enforceQuotas}
                     onChange={(e) => setEnforceQuotas(e.target.checked)}
-                    className="mt-0.5 rounded text-[#2997FF] focus:ring-0"
+                    className="mt-0.5 rounded text-[#6366F1] focus:ring-0"
                   />
                   <div>
-                    <div className="font-bold text-white">Enforce Category Quota Constraints in Solver</div>
-                    <div className="text-[#86868B] text-[11px] mt-0.5">
+                    <div className="font-bold text-[#F8FAFC]">Enforce Category Quota Constraints in Solver</div>
+                    <div className="text-[#94A3B8] text-[11px] mt-0.5">
                       Maintains reservation constraints across GEN, OBC-NCL, SC, ST, EWS, and PwD.
                     </div>
                   </div>
@@ -355,11 +356,11 @@ export default function AllocationManagementPage() {
                     type="checkbox"
                     checked={allowRelaxation}
                     onChange={(e) => setAllowRelaxation(e.target.checked)}
-                    className="mt-0.5 rounded text-[#2997FF] focus:ring-0"
+                    className="mt-0.5 rounded text-[#6366F1] focus:ring-0"
                   />
                   <div>
-                    <div className="font-bold text-white">Automatic Infeasibility Diagnostics</div>
-                    <div className="text-[#86868B] text-[11px] mt-0.5">
+                    <div className="font-bold text-[#F8FAFC]">Automatic Infeasibility Diagnostics</div>
+                    <div className="text-[#94A3B8] text-[11px] mt-0.5">
                       Flags candidate shortages for administrative review rather than silently violating rules.
                     </div>
                   </div>
@@ -370,38 +371,38 @@ export default function AllocationManagementPage() {
 
           {/* Right: Telemetry & Actions */}
           <div className="space-y-6">
-            <div className="p-6 rounded-3xl bg-[#161617] border border-white/10 space-y-4">
+            <div className="glass-panel p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="text-xs font-bold text-[#86868B] uppercase">Run #{solverResult?.run_number || 1} Telemetry</span>
-                <span className="px-3 py-0.5 rounded-full text-xs font-bold bg-[#30D158]/20 text-[#30D158] border border-[#30D158]/30">
+                <span className="text-xs font-bold text-[#94A3B8] uppercase">Run #{solverResult?.run_number || 1} Telemetry</span>
+                <span className="px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                   {solverResult?.solver_status || 'OPTIMAL'}
                 </span>
               </div>
 
               <div className="space-y-2.5 text-xs">
                 <div className="flex justify-between py-1 border-b border-white/5">
-                  <span className="text-[#86868B]">Solve Time:</span>
-                  <span className="font-bold text-white">{solverResult?.solver_execution_time_ms || 146} ms</span>
+                  <span className="text-[#94A3B8]">Solve Time:</span>
+                  <span className="font-bold text-[#F8FAFC]">{solverResult?.solver_execution_time_ms || 146} ms</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-white/5">
-                  <span className="text-[#86868B]">Total Pool:</span>
-                  <span className="font-bold text-white">{solverResult?.total_students || 100}</span>
+                  <span className="text-[#94A3B8]">Total Pool:</span>
+                  <span className="font-bold text-[#F8FAFC]">{solverResult?.total_students || 100}</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-white/5">
-                  <span className="text-[#86868B]">Approved Seats:</span>
-                  <span className="font-bold text-white">{solverResult?.total_vacancies || 62}</span>
+                  <span className="text-[#94A3B8]">Approved Seats:</span>
+                  <span className="font-bold text-[#F8FAFC]">{solverResult?.total_vacancies || 62}</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-white/5">
-                  <span className="text-[#86868B]">Allocated:</span>
-                  <span className="font-bold text-[#30D158]">{solverResult?.total_allocated || assignments.length} Seats</span>
+                  <span className="text-[#94A3B8]">Allocated:</span>
+                  <span className="font-bold text-emerald-400">{solverResult?.total_allocated || assignments.length} Seats</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-white/5">
-                  <span className="text-[#86868B]">Average Score:</span>
-                  <span className="font-bold text-[#2997FF]">{solverResult?.average_score || 0}%</span>
+                  <span className="text-[#94A3B8]">Average Score:</span>
+                  <span className="font-bold text-[#00D4FF]">{solverResult?.average_score || 0}%</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-[#86868B]">Publication:</span>
-                  <span className={`font-bold ${solverResult?.is_published ? 'text-[#30D158]' : 'text-[#FF9F0A]'}`}>
+                  <span className="text-[#94A3B8]">Publication:</span>
+                  <span className={`font-bold ${solverResult?.is_published ? 'text-emerald-400' : 'text-amber-400'}`}>
                     {solverResult?.is_published ? 'PUBLISHED' : 'DRAFT'}
                   </span>
                 </div>
@@ -410,11 +411,11 @@ export default function AllocationManagementPage() {
               <button
                 onClick={handlePublish}
                 disabled={publishing || solverResult?.is_published}
-                className={`w-full py-2.5 rounded-full text-xs font-bold transition flex items-center justify-center space-x-2 ${
+                className={
                   solverResult?.is_published
-                    ? 'bg-white/10 text-[#86868B] cursor-not-allowed'
-                    : 'bg-[#30D158] hover:bg-emerald-500 text-black shadow-lg shadow-emerald-500/20'
-                }`}
+                    ? "w-full py-2.5 rounded-full text-xs font-bold bg-white/10 text-[#94A3B8] cursor-not-allowed"
+                    : "btn-primary-gradient w-full py-2.5 rounded-full text-xs font-bold space-x-2"
+                }
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>{solverResult?.is_published ? 'Allocations Published ✓' : 'Approve & Publish Final Allocations'}</span>
@@ -422,23 +423,23 @@ export default function AllocationManagementPage() {
             </div>
 
             {/* Conflict Diagnostics */}
-            <div className="p-6 rounded-3xl bg-[#161617] border border-white/10 space-y-3">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-1.5">
-                <AlertTriangle className="w-4 h-4 text-[#FF9F0A]" />
+            <div className="glass-panel p-6 space-y-3">
+              <h4 className="text-xs font-bold text-[#F8FAFC] uppercase tracking-wider flex items-center space-x-1.5">
+                <AlertTriangle className="w-4 h-4 text-amber-400" />
                 <span>Conflict Diagnostics</span>
               </h4>
 
               {solverResult?.conflict_diagnostics && solverResult.conflict_diagnostics.length > 0 ? (
                 <div className="space-y-2">
                   {solverResult.conflict_diagnostics.map((c, i) => (
-                    <div key={i} className="p-3 rounded-2xl bg-[#FF9F0A]/10 border border-[#FF9F0A]/20 text-[#FF9F0A] text-xs">
+                    <div key={i} className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs">
                       <div className="font-bold">{c.type}: {c.internship_title}</div>
                       <div className="text-[11px] text-slate-300 mt-0.5">{c.message}</div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="p-4 rounded-2xl bg-[#30D158]/10 border border-[#30D158]/20 text-[#30D158] text-xs flex items-center space-x-2">
+                <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center space-x-2">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />
                   <span>Zero mathematical conflicts detected. All constraints satisfied!</span>
                 </div>
@@ -448,15 +449,15 @@ export default function AllocationManagementPage() {
         </div>
 
         {/* RESULTS LEDGER */}
-        <div className="bg-[#161617] rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
-          <div className="p-5 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-black/40">
+        <div className="glass-panel overflow-hidden">
+          <div className="p-5 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-white/[0.02]">
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => setViewMode('assignments')}
                 className={`px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center space-x-1.5 ${
                   viewMode === 'assignments'
-                    ? 'bg-white text-black shadow-md'
-                    : 'text-[#86868B] hover:text-white'
+                    ? 'bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white shadow-md shadow-indigo-500/25'
+                    : 'text-[#94A3B8] hover:text-[#F8FAFC]'
                 }`}
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
@@ -468,7 +469,7 @@ export default function AllocationManagementPage() {
                 className={`px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center space-x-1.5 ${
                   viewMode === 'unallocated'
                     ? 'bg-rose-500 text-white shadow-md'
-                    : 'text-[#86868B] hover:text-white'
+                    : 'text-[#94A3B8] hover:text-[#F8FAFC]'
                 }`}
               >
                 <UserX className="w-3.5 h-3.5" />
@@ -482,13 +483,13 @@ export default function AllocationManagementPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search candidate or role..."
-                className="w-full md:w-60 px-3.5 py-1.5 rounded-full bg-black/60 border border-white/10 text-xs text-white focus:outline-none"
+                className="w-full md:w-60 px-3.5 py-1.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] placeholder-[#94A3B8] focus:outline-none focus:border-[#00D4FF]"
               />
 
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="px-3 py-1.5 rounded-full bg-black/60 border border-white/10 text-xs text-white"
+                className="px-3 py-1.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] focus:outline-none"
               >
                 <option value="All">All Categories</option>
                 <option value="GEN">GEN</option>
@@ -504,7 +505,7 @@ export default function AllocationManagementPage() {
           {viewMode === 'assignments' && (
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-black/60 text-[#86868B] font-semibold uppercase tracking-wider border-b border-white/10">
+                <thead className="bg-white/[0.02] text-[#94A3B8] font-semibold uppercase tracking-wider border-b border-white/10">
                   <tr>
                     <th className="py-3 px-4">Candidate</th>
                     <th className="py-3 px-4">Category</th>
@@ -518,23 +519,23 @@ export default function AllocationManagementPage() {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {filteredAssignments.map((a) => (
-                    <tr key={a.id} className="hover:bg-white/5 transition">
-                      <td className="py-3 px-4 font-bold text-white">{a.student_name}</td>
-                      <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-white font-mono">
+                    <tr key={a.id} className="hover:bg-white/[0.03] transition-colors">
+                      <td className="py-3.5 px-4 font-bold text-[#F8FAFC]">{a.student_name}</td>
+                      <td className="py-3.5 px-4">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/[0.04] text-[#F8FAFC] font-mono border border-white/10">
                           {a.student_category}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-slate-300 font-semibold">{a.student_cgpa}</td>
-                      <td className="py-3 px-4 font-bold text-slate-200">{a.internship_title}</td>
-                      <td className="py-3 px-4 text-[#86868B]">{a.company_name}</td>
-                      <td className="py-3 px-4 text-[#86868B]">{a.sector}</td>
-                      <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#2997FF]/20 text-[#2997FF] border border-[#2997FF]/30 font-mono">
+                      <td className="py-3.5 px-4 text-slate-300 font-semibold">{a.student_cgpa}</td>
+                      <td className="py-3.5 px-4 font-bold text-slate-200">{a.internship_title}</td>
+                      <td className="py-3.5 px-4 text-[#94A3B8]">{a.company_name}</td>
+                      <td className="py-3.5 px-4 text-[#94A3B8]">{a.sector}</td>
+                      <td className="py-3.5 px-4">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30 font-mono">
                           {a.category_quota_assigned}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-right font-black text-[#30D158]">
+                      <td className="py-3.5 px-4 text-right font-black text-emerald-400">
                         {Math.round(a.score)}%
                       </td>
                     </tr>
@@ -547,7 +548,7 @@ export default function AllocationManagementPage() {
           {viewMode === 'unallocated' && (
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-black/60 text-[#86868B] font-semibold uppercase tracking-wider border-b border-white/10">
+                <thead className="bg-white/[0.02] text-[#94A3B8] font-semibold uppercase tracking-wider border-b border-white/10">
                   <tr>
                     <th className="py-3 px-4">Candidate</th>
                     <th className="py-3 px-4">Category</th>
@@ -559,17 +560,17 @@ export default function AllocationManagementPage() {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {filteredUnallocated.map((u) => (
-                    <tr key={u.student_id} className="hover:bg-white/5 transition">
-                      <td className="py-3 px-4 font-bold text-white">{u.full_name}</td>
-                      <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-white font-mono">
+                    <tr key={u.student_id} className="hover:bg-white/[0.03] transition-colors">
+                      <td className="py-3.5 px-4 font-bold text-[#F8FAFC]">{u.full_name}</td>
+                      <td className="py-3.5 px-4">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/[0.04] text-[#F8FAFC] font-mono border border-white/10">
                           {u.category}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-slate-300 font-semibold">{u.cgpa}</td>
-                      <td className="py-3 px-4 text-[#86868B]">{u.degree}</td>
-                      <td className="py-3 px-4 text-[#86868B]">{u.city}</td>
-                      <td className="py-3 px-4 text-[#FF9F0A] font-medium">
+                      <td className="py-3.5 px-4 text-slate-300 font-semibold">{u.cgpa}</td>
+                      <td className="py-3.5 px-4 text-[#94A3B8]">{u.degree}</td>
+                      <td className="py-3.5 px-4 text-[#94A3B8]">{u.city}</td>
+                      <td className="py-3.5 px-4 text-amber-400 font-medium">
                         {u.primary_reason}
                       </td>
                     </tr>

@@ -7,7 +7,9 @@ import {
   Building2, 
   Briefcase, 
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  CheckCircle2,
+  Filter
 } from 'lucide-react';
 
 export default function InternshipsListingPage({ setActiveTab }) {
@@ -95,50 +97,54 @@ export default function InternshipsListingPage({ setActiveTab }) {
   });
 
   return (
-    <div className="bg-[#000000] text-white min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-12 px-4 sm:px-6 lg:px-8 space-y-10 font-sans selection:bg-[#7C3AED] selection:text-white">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#2997FF] bg-[#2997FF]/15 px-3 py-1 rounded-full border border-[#2997FF]/30">
+        {/* Header Strip with Glowing CTA */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-2 border-b border-white/10">
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#00D4FF] bg-[#00D4FF]/10 px-3 py-1 rounded-full border border-[#00D4FF]/20">
               National Opportunity Catalog
             </span>
-            <h1 className="text-4xl font-black apple-text-gradient mt-2">
+            <h1 className="text-4xl sm:text-5xl font-black text-[#F8FAFC] tracking-tight">
               Explore 30+ Vacancies.
             </h1>
-            <p className="text-xs text-[#86868B] mt-1">
+            <p className="text-xs text-[#94A3B8]">
               Filter by industry sector, geographic preference, or required technical competencies.
             </p>
           </div>
 
           <button
             onClick={() => setActiveTab('ai-matching')}
-            className="px-5 py-2.5 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-lg shadow-blue-500/20"
+            className="btn-primary-gradient px-6 py-3 rounded-full text-xs font-semibold space-x-2"
           >
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-4 h-4 text-white" />
             <span>Check My AI Match Ranking</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {toast && (
-          <div className="p-4 rounded-2xl bg-[#30D158]/15 border border-[#30D158]/30 text-[#30D158] text-xs font-semibold flex items-center justify-between">
-            <span>{toast}</span>
-            <button onClick={() => setToast('')} className="text-white hover:opacity-80">✕</button>
+          <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center justify-between animate-in fade-in">
+            <div className="flex items-center space-x-2">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>{toast}</span>
+            </div>
+            <button onClick={() => setToast('')} className="text-white/60 hover:text-white">✕</button>
           </div>
         )}
 
-        {/* Filter Controls (Apple Glass) */}
-        <div className="p-5 rounded-3xl bg-[#161617] border border-white/10 space-y-4">
+        {/* Filter Controls (Frosted Glass Container) */}
+        <div className="glass-panel p-5 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             <div className="relative md:col-span-2">
-              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+              <Search className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-3" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by role title, enterprise name, or required skill..."
-                className="w-full pl-10 pr-3 py-2.5 rounded-full bg-black/60 border border-white/10 text-xs text-white focus:outline-none focus:border-[#2997FF]"
+                className="w-full pl-10 pr-3 py-2.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] placeholder-[#94A3B8] focus:outline-none focus:border-[#00D4FF]"
               />
             </div>
 
@@ -146,7 +152,7 @@ export default function InternshipsListingPage({ setActiveTab }) {
               <select
                 value={selectedSector}
                 onChange={(e) => setSelectedSector(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-full bg-black/60 border border-white/10 text-xs text-white"
+                className="w-full px-3.5 py-2.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#00D4FF]"
               >
                 <option value="All">All Sectors ({sectors.length - 1})</option>
                 {sectors.filter(s => s !== 'All').map((sec, i) => (
@@ -159,7 +165,7 @@ export default function InternshipsListingPage({ setActiveTab }) {
               <select
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-full bg-black/60 border border-white/10 text-xs text-white"
+                className="w-full px-3.5 py-2.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#00D4FF]"
               >
                 <option value="All">All Locations ({locations.length - 1})</option>
                 {locations.filter(l => l !== 'All').map((loc, i) => (
@@ -169,14 +175,14 @@ export default function InternshipsListingPage({ setActiveTab }) {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between text-xs pt-3 border-t border-white/10 gap-3 text-[#86868B]">
-            <div className="flex items-center space-x-5">
-              <label className="flex items-center space-x-2 cursor-pointer text-slate-300 font-medium">
+          <div className="flex flex-wrap items-center justify-between text-xs pt-3 border-t border-white/10 gap-3 text-[#94A3B8]">
+            <div className="flex items-center space-x-6">
+              <label className="flex items-center space-x-2 cursor-pointer text-[#F8FAFC] font-medium">
                 <input
                   type="checkbox"
                   checked={remoteOnly}
                   onChange={(e) => setRemoteOnly(e.target.checked)}
-                  className="rounded text-[#0071E3] focus:ring-0 bg-black/60 border-white/20"
+                  className="rounded text-[#6366F1] focus:ring-0 bg-black/40 border-white/20"
                 />
                 <span>Remote Only</span>
               </label>
@@ -186,7 +192,7 @@ export default function InternshipsListingPage({ setActiveTab }) {
                 <select
                   value={minStipend}
                   onChange={(e) => setMinStipend(Number(e.target.value))}
-                  className="px-2.5 py-1 rounded-lg bg-black/60 border border-white/10 text-white text-xs"
+                  className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-[#F8FAFC] text-xs focus:outline-none"
                 >
                   <option value={0}>Any</option>
                   <option value={18000}>₹18,000+</option>
@@ -197,63 +203,63 @@ export default function InternshipsListingPage({ setActiveTab }) {
             </div>
 
             <div>
-              Showing <strong>{filtered.length}</strong> of {internships.length} opportunities
+              Showing <strong className="text-[#F8FAFC]">{filtered.length}</strong> of {internships.length} opportunities
             </div>
           </div>
         </div>
 
         {/* Bento Grid of Opportunities */}
         {loading ? (
-          <div className="py-20 text-center text-slate-500 text-xs">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2997FF] mx-auto mb-3"></div>
-            <span>Loading vacancies...</span>
+          <div className="py-24 text-center text-[#94A3B8] text-xs space-y-3">
+            <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-[#00D4FF] animate-spin mx-auto"></div>
+            <span>Loading corporate vacancies...</span>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="p-16 text-center text-[#86868B] text-xs bg-[#161617] rounded-3xl border border-white/10">
-            <Briefcase className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+          <div className="p-16 text-center text-[#94A3B8] text-xs glass-panel space-y-2">
+            <Briefcase className="w-8 h-8 text-[#94A3B8]/60 mx-auto" />
             <span>No opportunities match your filter criteria. Try resetting filters.</span>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((item) => {
               const hasApplied = appliedIds.has(item.id);
               return (
                 <div 
                   key={item.id}
-                  className="p-6 rounded-3xl bg-[#161617] border border-white/10 hover:border-white/25 transition-all flex flex-col justify-between group"
+                  className="bento-card-interactive p-6 flex flex-col justify-between group"
                 >
                   <div>
                     <div className="flex items-start justify-between gap-2 mb-3">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#2997FF] bg-[#2997FF]/15 px-2.5 py-0.5 rounded-full border border-[#2997FF]/30">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#00D4FF] bg-[#00D4FF]/10 px-2.5 py-0.5 rounded-full border border-[#00D4FF]/25">
                         {item.sector}
                       </span>
-                      <span className="text-xs font-black text-[#30D158] bg-[#30D158]/15 px-2.5 py-0.5 rounded-full border border-[#30D158]/30">
+                      <span className="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/25">
                         ₹{item.stipend_amount?.toLocaleString('en-IN')}/mo
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-white group-hover:text-[#2997FF] transition-colors line-clamp-1">
+                    <h3 className="text-lg font-bold text-[#F8FAFC] group-hover:text-[#00D4FF] transition-colors line-clamp-1">
                       {item.title}
                     </h3>
-                    <div className="text-xs text-[#86868B] font-medium mb-3">
+                    <div className="text-xs text-[#94A3B8] font-medium mb-3">
                       {item.company_name}
                     </div>
 
-                    <div className="flex items-center space-x-2 text-xs text-[#86868B] mb-4">
+                    <div className="flex items-center space-x-2 text-xs text-[#94A3B8] mb-4">
                       <MapPin className="w-3.5 h-3.5 text-slate-400" />
                       <span>{item.is_remote ? 'Remote' : item.location}</span>
                       <span>•</span>
                       <span>{item.duration_months} Months</span>
                       <span>•</span>
-                      <span>Min CGPA: <strong className="text-white">{item.min_cgpa}</strong></span>
+                      <span>Min CGPA: <strong className="text-[#F8FAFC]">{item.min_cgpa}</strong></span>
                     </div>
 
                     {/* Skills Chips */}
                     <div className="space-y-1.5 mb-4">
-                      <div className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider">Required Skills</div>
-                      <div className="flex flex-wrap gap-1">
+                      <div className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider">Required Skills</div>
+                      <div className="flex flex-wrap gap-1.5">
                         {item.required_skills?.map((s, idx) => (
-                          <span key={idx} className="text-[10px] font-medium bg-white/5 text-slate-300 px-2 py-0.5 rounded-full border border-white/10">
+                          <span key={idx} className="text-[10px] font-medium bg-white/[0.04] text-[#F8FAFC] px-2.5 py-0.5 rounded-full border border-white/10">
                             {s}
                           </span>
                         ))}
@@ -262,18 +268,18 @@ export default function InternshipsListingPage({ setActiveTab }) {
                   </div>
 
                   <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                    <span className="text-[11px] text-[#86868B]">
-                      <strong className="text-white">{item.seats_allocated}</strong> / {item.seats_total} filled
+                    <span className="text-[11px] text-[#94A3B8]">
+                      <strong className="text-[#F8FAFC]">{item.seats_allocated}</strong> / {item.seats_total} seats filled
                     </span>
 
                     <button
                       onClick={() => handleApply(item.id)}
                       disabled={hasApplied || applyingId === item.id}
-                      className={`px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center space-x-1 ${
-                        hasApplied 
-                          ? 'bg-white/10 text-[#30D158] border border-[#30D158]/30'
-                          : 'bg-[#0071E3] hover:bg-[#0077ED] text-white shadow-xs'
-                      }`}
+                      className={
+                        hasApplied
+                          ? "px-4 py-1.5 rounded-full text-xs font-bold bg-white/10 text-emerald-400 border border-emerald-500/30 cursor-default"
+                          : "btn-primary-gradient px-4 py-1.5 rounded-full text-xs font-bold"
+                      }
                     >
                       <span>{hasApplied ? 'Applied ✓' : applyingId === item.id ? 'Applying...' : 'Apply Now'}</span>
                     </button>
