@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { analyticsAPI } from '../services/api';
-import TubesBackground from '../components/TubesBackground';
 import { 
   ShieldCheck, 
   Sparkles, 
@@ -142,9 +141,9 @@ export default function LandingPage({ setActiveTab }) {
         </div>
 
         {/* =========================================================================
-            1. HERO SECTION WITH INTERACTIVE 3D NEON TUBES BACKGROUND
+            1. HERO SECTION (Under Global 3D Interactive Neon Tubes)
             ========================================================================= */}
-        <TubesBackground className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 text-center min-h-[640px] flex items-center justify-center">
+        <section className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 text-center min-h-[640px] flex items-center justify-center">
           <div className="relative max-w-5xl mx-auto space-y-7 pointer-events-auto">
             
             {/* Glowing Hero Eyebrow Badge */}
@@ -228,7 +227,7 @@ export default function LandingPage({ setActiveTab }) {
             </div>
 
           </div>
-        </TubesBackground>
+        </section>
 
         {/* =========================================================================
             2. SOCIAL PROOF / METRICS BAR
