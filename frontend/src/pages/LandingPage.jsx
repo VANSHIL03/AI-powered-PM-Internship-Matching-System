@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { analyticsAPI } from '../services/api';
+import TubesBackground from '../components/TubesBackground';
 import { 
   ShieldCheck, 
   Sparkles, 
@@ -60,11 +61,11 @@ export default function LandingPage({ setActiveTab }) {
           ========================================================================= */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Orb 1: Deep Indigo (#3B1E78) */}
-        <div className="absolute top-[-5%] left-[10%] w-[550px] h-[550px] rounded-full bg-[#3B1E78]/35 blur-[140px] mesh-orb-indigo"></div>
+        <div className="absolute top-[-5%] left-[10%] w-[550px] h-[550px] rounded-full bg-[#3B1E78]/25 blur-[140px] mesh-orb-indigo"></div>
         {/* Orb 2: Electric Cyan (#00D4FF) */}
-        <div className="absolute top-[25%] right-[5%] w-[500px] h-[500px] rounded-full bg-[#00D4FF]/20 blur-[150px] mesh-orb-cyan"></div>
+        <div className="absolute top-[25%] right-[5%] w-[500px] h-[500px] rounded-full bg-[#00D4FF]/15 blur-[150px] mesh-orb-cyan"></div>
         {/* Orb 3: Royal Violet (#7C3AED) */}
-        <div className="absolute top-[50%] left-[25%] w-[600px] h-[600px] rounded-full bg-[#7C3AED]/25 blur-[160px] mesh-orb-violet"></div>
+        <div className="absolute top-[50%] left-[25%] w-[600px] h-[600px] rounded-full bg-[#7C3AED]/20 blur-[160px] mesh-orb-violet"></div>
       </div>
 
       <div className="relative z-10">
@@ -74,7 +75,7 @@ export default function LandingPage({ setActiveTab }) {
           <div className="flex items-center justify-between p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md text-xs">
             <div className="flex items-center space-x-2.5">
               <span className="w-2 h-2 rounded-full bg-[#00D4FF] animate-pulse"></span>
-              <span className="text-[#94A3B8]">Active Brand:</span>
+              <span className="text-[#94A3B8]">Active Platform:</span>
               <strong className="text-[#F8FAFC]">{brandName}</strong>
               <span className="text-[#94A3B8] hidden md:inline">— {brandTagline}</span>
             </div>
@@ -91,11 +92,11 @@ export default function LandingPage({ setActiveTab }) {
           {showBrandEditor && (
             <div className="mt-3 p-5 rounded-3xl glass-panel space-y-4 animate-in fade-in duration-300">
               <div className="text-xs font-bold uppercase tracking-wider text-[#00D4FF]">
-                Live Brand & Business Customizer
+                Live Brand & Platform Customizer
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] text-[#94A3B8] font-semibold block mb-1">Brand / Business Name</label>
+                  <label className="text-[11px] text-[#94A3B8] font-semibold block mb-1">Brand / Platform Name</label>
                   <input
                     type="text"
                     value={brandName}
@@ -116,7 +117,7 @@ export default function LandingPage({ setActiveTab }) {
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 pt-1 text-[11px]">
-                <span className="text-[#94A3B8] self-center">Quick Presets:</span>
+                <span className="text-[#94A3B8] self-center">Presets:</span>
                 <button
                   onClick={() => { setBrandName('PMIS Prime'); setBrandTagline('AI-Powered PM Internship Matching System'); }}
                   className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-[#F8FAFC] border border-white/10"
@@ -141,16 +142,16 @@ export default function LandingPage({ setActiveTab }) {
         </div>
 
         {/* =========================================================================
-            1. HERO SECTION (Ultra-Premium Dark Glassmorphism)
+            1. HERO SECTION WITH INTERACTIVE 3D NEON TUBES BACKGROUND
             ========================================================================= */}
-        <section className="relative pt-20 pb-20 px-4 sm:px-6 lg:px-8 text-center">
-          <div className="relative max-w-5xl mx-auto space-y-7">
+        <TubesBackground className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 text-center min-h-[640px] flex items-center justify-center">
+          <div className="relative max-w-5xl mx-auto space-y-7 pointer-events-auto">
             
             {/* Glowing Hero Eyebrow Badge */}
             <div className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/15 text-xs text-[#F8FAFC] backdrop-blur-xl shadow-lg shadow-indigo-500/10">
               <span className="w-2 h-2 rounded-full bg-[#00D4FF] animate-pulse"></span>
               <span className="font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] via-[#818CF8] to-[#C084FC]">
-                Manthan Kriti 2026 Winner • High-Dimensional Optimization
+                Manthan Kriti 2026 Winner • 3D Interactive Neon Engine
               </span>
             </div>
 
@@ -195,7 +196,7 @@ export default function LandingPage({ setActiveTab }) {
             </div>
 
             {/* Instant 1-Click Evaluation Accounts */}
-            <div className="pt-8 max-w-xl mx-auto">
+            <div className="pt-6 max-w-xl mx-auto">
               <div className="text-[11px] uppercase tracking-wider text-[#94A3B8] font-bold mb-3">
                 1-Click Role Exploration:
               </div>
@@ -227,7 +228,7 @@ export default function LandingPage({ setActiveTab }) {
             </div>
 
           </div>
-        </section>
+        </TubesBackground>
 
         {/* =========================================================================
             2. SOCIAL PROOF / METRICS BAR
