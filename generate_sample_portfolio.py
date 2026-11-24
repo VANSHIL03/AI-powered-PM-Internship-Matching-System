@@ -112,15 +112,15 @@ def generate_pdf(output_paths):
         story = []
         
         # ================= HEADER =================
-        story.append(Paragraph("AARAV MEHTA", name_style))
+        story.append(Paragraph("VANSHIL GUPTA", name_style))
         story.append(Paragraph("B.Tech Computer Science & Engineering &bull; Full-Stack Cloud & AI Aspirant", title_style))
         story.append(Paragraph(
             "Registration No: <b>PMIS-2026-8842</b> &nbsp;|&nbsp; "
-            "Email: <b>aarav.mehta@example.edu</b> &nbsp;|&nbsp; "
+            "Email: <b>vanshil.gupta@example.edu</b> &nbsp;|&nbsp; "
             "Mobile: <b>+91-98765-43210</b> &nbsp;|&nbsp; "
             "Location: <b>Bengaluru, Karnataka</b><br/>"
-            "Portfolio: <b>github.com/aarav-mehta</b> &nbsp;|&nbsp; "
-            "LinkedIn: <b>linkedin.com/in/aarav-mehta-dev</b> &nbsp;|&nbsp; "
+            "Portfolio: <b>github.com/VANSHIL03</b> &nbsp;|&nbsp; "
+            "LinkedIn: <b>linkedin.com/in/vanshil-gupta</b> &nbsp;|&nbsp; "
             "Scheme Track: <b>National PM Internship Scheme 2026</b>",
             contact_style
         ))
@@ -260,7 +260,7 @@ def generate_pdf(output_paths):
 
 if __name__ == "__main__":
     paths = [
-        os.path.abspath("Sample_Student_Portfolio_Aarav_Mehta.pdf"),
-        os.path.abspath("frontend/public/Sample_Student_Portfolio_Aarav_Mehta.pdf")
+        os.path.abspath("Sample_Student_Portfolio_Vanshil_Gupta.pdf"),
+        os.path.abspath("frontend/public/Sample_Student_Portfolio_Vanshil_Gupta.pdf")
     ]
     generate_pdf(paths)
