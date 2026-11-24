@@ -1,11 +1,13 @@
 from typing import List, Optional
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 
 from database import get_db
-from models import Internship, CompanyProfile
+from models import Internship, CompanyProfile, SystemSetting
 from schemas import InternshipOut
+from matching_engine import DEFAULT_WEIGHTS
+from portfolio_analyzer import extract_text_from_bytes, parse_portfolio_text, analyze_and_rank_internships
 
 router = APIRouter(prefix="/api/internships", tags=["Internships"])
 
@@ -60,6 +62,8 @@ def list_internships(
             required_skills=i.required_skills or [],
             preferred_skills=i.preferred_skills or [],
             category_reservations=i.category_reservations or {},
+            apply_url=i.apply_url or "https://pminternship.mca.gov.in/",
+            official_portal_url=i.official_portal_url or "https://pminternship.mca.gov.in/",
             status=i.status,
             created_at=i.created_at
         ))
@@ -100,6 +104,8 @@ def get_internship_detail(internship_id: int, db: Session = Depends(get_db)):
         "required_skills": i.required_skills,
         "preferred_skills": i.preferred_skills,
         "category_reservations": i.category_reservations,
+        "apply_url": i.apply_url or "https://pminternship.mca.gov.in/",
+        "official_portal_url": i.official_portal_url or "https://pminternship.mca.gov.in/",
         "status": i.status,
         "created_at": i.created_at,
         "company": {
@@ -110,4 +116,36 @@ def get_internship_detail(internship_id: int, db: Session = Depends(get_db)):
             "website": i.company.website,
             "hq_location": i.company.hq_location
         }
+    }
+
+
+@router.post("/analyze-portfolio")
+def analyze_portfolio_public(
+    file: Optional[UploadFile] = File(None),
+    raw_text: Optional[str] = Form(None),
+    db: Session = Depends(get_db)
+):
+    text_to_parse = ""
+    if file:
+        file_bytes = file.file.read()
+        text_to_parse = extract_text_from_bytes(file_bytes, file.filename)
+    elif raw_text:
+        text_to_parse = raw_text
+
+    if not text_to_parse:
+        raise HTTPException(status_code=400, detail="Please upload a PDF/resume file or provide portfolio text.")
+
+    parsed = parse_portfolio_text(text_to_parse)
+
+    internships = db.query(Internship).all()
+    weights_setting = db.query(SystemSetting).filter(SystemSetting.key == "matching_weights").first()
+    weights = weights_setting.value_json if weights_setting else DEFAULT_WEIGHTS
+
+    matches = analyze_and_rank_internships(parsed, internships, weights)
+
+    return {
+        "status": "success",
+        "extracted_profile": parsed,
+        "total_evaluated": len(internships),
+        "matches": matches[:15]
     }

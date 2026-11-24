@@ -13,6 +13,7 @@ from schemas import (
 )
 from auth import get_current_user, require_role, log_audit
 from matching_engine import calculate_compatibility, DEFAULT_WEIGHTS
+from portfolio_analyzer import extract_text_from_bytes, parse_portfolio_text, analyze_and_rank_internships
 
 router = APIRouter(prefix="/api/students", tags=["Students"])
 
@@ -126,10 +127,115 @@ def upload_resume(
 
     profile.resume_filename = file.filename
     profile.resume_path = file_path
+
+    # Read bytes for intelligent portfolio analysis
+    try:
+        with open(file_path, "rb") as f:
+            file_bytes = f.read()
+        extracted_text = extract_text_from_bytes(file_bytes, file.filename)
+        parsed_data = parse_portfolio_text(extracted_text)
+
+        # Sync profile with extracted credentials
+        if parsed_data.get("skills"):
+            profile.skills = parsed_data["skills"]
+        if parsed_data.get("cgpa_percentage") and parsed_data["cgpa_percentage"] > 4.0:
+            profile.cgpa_percentage = parsed_data["cgpa_percentage"]
+        if parsed_data.get("degree"):
+            profile.degree = parsed_data["degree"]
+        if parsed_data.get("field_of_study"):
+            profile.field_of_study = parsed_data["field_of_study"]
+        if parsed_data.get("experience_months"):
+            profile.experience_months = parsed_data["experience_months"]
+        if parsed_data.get("projects_count"):
+            profile.projects_count = parsed_data["projects_count"]
+    except Exception as e:
+        print(f"Error during portfolio auto-extraction: {e}")
+        parsed_data = None
+
     db.commit()
 
+    # Get matching internships
+    internships = db.query(Internship).all()
+    weights_setting = db.query(SystemSetting).filter(SystemSetting.key == "matching_weights").first()
+    weights = weights_setting.value_json if weights_setting else DEFAULT_WEIGHTS
+    matches = analyze_and_rank_internships(parsed_data or profile.__dict__, internships, weights)
+
     log_audit(db, "RESUME_UPLOADED", current_user.email, "student", {"filename": file.filename})
-    return {"message": "Resume uploaded successfully", "filename": file.filename}
+    return {
+        "message": f"Portfolio '{file.filename}' uploaded and analyzed successfully! Extracted {len(parsed_data.get('skills', [])) if parsed_data else 0} skills.",
+        "filename": file.filename,
+        "extracted_profile": parsed_data,
+        "matches": matches[:15]
+    }
+
+
+@router.post("/analyze-portfolio")
+def analyze_portfolio_endpoint(
+    file: Optional[UploadFile] = File(None),
+    raw_text: Optional[str] = Form(None),
+    current_user: User = Depends(require_role(["student", "admin"])),
+    db: Session = Depends(get_db)
+):
+    profile = current_user.student_profile
+    if not profile:
+        raise HTTPException(status_code=404, detail="Student profile not found.")
+
+    text_to_parse = ""
+    if file:
+        file_bytes = file.file.read()
+        text_to_parse = extract_text_from_bytes(file_bytes, file.filename)
+    elif raw_text:
+        text_to_parse = raw_text
+    elif profile.resume_path and os.path.exists(profile.resume_path):
+        with open(profile.resume_path, "rb") as f:
+            text_to_parse = extract_text_from_bytes(f.read(), profile.resume_filename or "resume.pdf")
+
+    if not text_to_parse:
+        # Fallback to existing profile attributes
+        parsed = {
+            "candidate_name": current_user.full_name,
+            "registration_number": profile.registration_number or "PMIS-2026-ONLINE",
+            "email": current_user.email,
+            "phone": current_user.phone or "",
+            "degree": profile.degree,
+            "field_of_study": profile.field_of_study,
+            "cgpa_percentage": profile.cgpa_percentage,
+            "skills": profile.skills,
+            "experience_months": profile.experience_months,
+            "projects_count": profile.projects_count,
+            "preferred_locations": profile.preferred_locations,
+            "preferred_sectors": profile.preferred_sectors,
+            "category": profile.category
+        }
+    else:
+        parsed = parse_portfolio_text(text_to_parse)
+        # Update current student profile in database
+        if parsed.get("skills"):
+            profile.skills = parsed["skills"]
+        if parsed.get("cgpa_percentage") and parsed["cgpa_percentage"] > 4.0:
+            profile.cgpa_percentage = parsed["cgpa_percentage"]
+        if parsed.get("degree"):
+            profile.degree = parsed["degree"]
+        if parsed.get("field_of_study"):
+            profile.field_of_study = parsed["field_of_study"]
+        if parsed.get("experience_months"):
+            profile.experience_months = parsed["experience_months"]
+        if parsed.get("projects_count"):
+            profile.projects_count = parsed["projects_count"]
+        db.commit()
+
+    internships = db.query(Internship).all()
+    weights_setting = db.query(SystemSetting).filter(SystemSetting.key == "matching_weights").first()
+    weights = weights_setting.value_json if weights_setting else DEFAULT_WEIGHTS
+
+    matches = analyze_and_rank_internships(parsed, internships, weights)
+
+    return {
+        "status": "success",
+        "extracted_profile": parsed,
+        "total_evaluated": len(internships),
+        "matches": matches[:15]
+    }
 
 
 @router.get("/matches", response_model=List[CompatibilityResult])

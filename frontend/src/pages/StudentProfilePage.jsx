@@ -12,8 +12,11 @@ import {
   X, 
   Check, 
   Save, 
-  AlertCircle
+  AlertCircle,
+  Sparkles,
+  ExternalLink
 } from 'lucide-react';
+import OfficialApplicationModal from '../components/OfficialApplicationModal';
 
 const COMMON_SKILLS = [
   "Python", "React", "SQL", "Java", "Machine Learning", "Docker", 
@@ -64,8 +67,11 @@ export default function StudentProfilePage() {
   const [newSkillName, setNewSkillName] = useState('');
   const [newSkillLevel, setNewSkillLevel] = useState('Intermediate');
 
-  // Resume Upload
+  // Resume Upload & AI Matches
   const [uploadingResume, setUploadingResume] = useState(false);
+  const [aiMatches, setAiMatches] = useState([]);
+  const [selectedInternship, setSelectedInternship] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     loadProfile();
@@ -177,7 +183,20 @@ export default function StudentProfilePage() {
 
     try {
       const res = await studentsAPI.uploadResume(formData);
-      setMessage(`Resume '${res.data.filename}' uploaded successfully!`);
+      setMessage(res.data.message || `Resume '${res.data.filename}' uploaded and analyzed successfully!`);
+      
+      if (res.data.extracted_profile) {
+        const ep = res.data.extracted_profile;
+        if (ep.skills && ep.skills.length > 0) setSkills(ep.skills);
+        if (ep.cgpa_percentage && ep.cgpa_percentage > 4.0) setCgpa(ep.cgpa_percentage);
+        if (ep.degree) setDegree(ep.degree);
+        if (ep.field_of_study) setFieldOfStudy(ep.field_of_study);
+        if (ep.experience_months) setExperienceMonths(ep.experience_months);
+        if (ep.projects_count) setProjectsCount(ep.projects_count);
+      }
+      if (res.data.matches) {
+        setAiMatches(res.data.matches);
+      }
       loadProfile();
     } catch (err) {
       setErrorMessage(err.response?.data?.detail || 'Resume upload failed.');
@@ -546,6 +565,65 @@ export default function StudentProfilePage() {
                 ></textarea>
               </div>
             </div>
+
+            {/* AI Extracted Recommendations Banner */}
+            {aiMatches.length > 0 && (
+              <div className="pt-4 border-t border-white/10 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Sparkles className="w-4 h-4 text-[#00D4FF]" />
+                    <span className="text-xs font-bold text-[#F8FAFC] uppercase tracking-wider">
+                      AI Matched PM Scheme Internships ({aiMatches.length})
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-[#94A3B8]">
+                    Ranked by multi-criteria optimization
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {aiMatches.slice(0, 3).map((match, mIdx) => (
+                    <div 
+                      key={mIdx}
+                      className="p-3.5 rounded-xl bg-black/50 border border-white/10 space-y-2 hover:border-[#00D4FF]/40 transition"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-[#00D4FF] bg-[#00D4FF]/10 px-2 py-0.5 rounded border border-[#00D4FF]/20">
+                          {Math.round(match.total_score)}% Match
+                        </span>
+                        <span className="text-[11px] font-bold text-emerald-400">
+                          ₹{match.stipend_amount?.toLocaleString('en-IN')}/mo
+                        </span>
+                      </div>
+                      <h4 className="text-xs font-bold text-[#F8FAFC] line-clamp-1">{match.internship_title}</h4>
+                      <div className="text-[11px] text-[#94A3B8]">{match.company_name}</div>
+                      
+                      <div className="pt-2 flex items-center justify-between gap-2 border-t border-white/5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedInternship(match);
+                            setIsModalOpen(true);
+                          }}
+                          className="btn-glass-secondary px-2.5 py-1 rounded-full text-[10px]"
+                        >
+                          Assistant
+                        </button>
+                        <a
+                          href={match.apply_url || "https://pminternship.mca.gov.in/"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-primary-gradient px-3 py-1 rounded-full text-[10px] font-bold text-white flex items-center space-x-1"
+                        >
+                          <span>Apply</span>
+                          <ExternalLink className="w-2.5 h-2.5" />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex justify-end pt-2">
@@ -559,6 +637,12 @@ export default function StudentProfilePage() {
             </button>
           </div>
         </form>
+
+        <OfficialApplicationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          internship={selectedInternship}
+        />
       </div>
     </div>
   );

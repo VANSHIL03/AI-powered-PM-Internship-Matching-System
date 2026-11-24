@@ -116,6 +116,9 @@ class Internship(Base):
     # e.g., {"GEN": 1, "OBC_NCL": 1, "SC": 0, "ST": 0, "EWS": 0, "PWD": 0}
     category_reservations = Column(JSON, default=dict)
     
+    apply_url = Column(String(500), nullable=True)
+    official_portal_url = Column(String(500), default="https://pminternship.mca.gov.in/")
+    
     status = Column(String(50), default="OPEN")  # OPEN, ALLOCATED, CLOSED
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 

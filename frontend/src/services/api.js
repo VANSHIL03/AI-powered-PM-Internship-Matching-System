@@ -45,6 +45,9 @@ export const studentsAPI = {
   uploadResume: (formData) => apiClient.post('/students/resume', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   }),
+  analyzePortfolio: (formData) => apiClient.post('/students/analyze-portfolio', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }),
   getMatches: () => apiClient.get('/students/matches'),
   applyInternship: (id) => apiClient.post(`/students/apply/${id}`),
   getApplications: () => apiClient.get('/students/applications'),
@@ -65,6 +68,9 @@ export const internshipsAPI = {
   getById: (id) => apiClient.get(`/internships/${id}`),
   getSectors: () => apiClient.get('/internships/sectors'),
   getLocations: () => apiClient.get('/internships/locations'),
+  analyzePortfolio: (formData) => apiClient.post('/internships/analyze-portfolio', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }),
 };
 
 export const allocationsAPI = {

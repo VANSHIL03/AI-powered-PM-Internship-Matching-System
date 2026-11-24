@@ -245,6 +245,22 @@ def calculate_compatibility(student, internship, weights_dict: Dict[str, float] 
     # If hard constraints failed, final score is 0
     final_score = round(raw_total, 1) if is_eligible else 0.0
 
+    # Formulate human-friendly explainable match reason
+    if not is_eligible:
+        match_reason = f"Ineligible for this role: {'; '.join(ineligibility_reasons)}"
+    elif final_score >= 80:
+        matched_str = f" Matches {len(matched_skills)} core skills ({', '.join(matched_skills[:3])})." if matched_skills else ""
+        match_reason = f"Exceptional {final_score}% match! Strong alignment with {getattr(internship, 'sector', 'industry')} competencies.{matched_str} Meets CGPA prerequisite."
+    elif final_score >= 60:
+        matched_str = f" Matched skills: {', '.join(matched_skills[:2])}." if matched_skills else ""
+        missing_str = f" Recommended to strengthen: {', '.join(missing_skills[:2])}." if missing_skills else ""
+        match_reason = f"Competitive {final_score}% match.{matched_str}{missing_str}"
+    else:
+        match_reason = f"{final_score}% match based on general qualifications and location suitability."
+
+    apply_url = getattr(internship, "apply_url", None) or "https://pminternship.mca.gov.in/"
+    official_portal_url = getattr(internship, "official_portal_url", None) or "https://pminternship.mca.gov.in/"
+
     return {
         "internship_id": getattr(internship, "id", 0),
         "internship_title": getattr(internship, "title", ""),
@@ -265,5 +281,8 @@ def calculate_compatibility(student, internship, weights_dict: Dict[str, float] 
             "other": round(other_component, 2),
         },
         "skills_matched": matched_skills,
-        "skills_missing": missing_skills
+        "skills_missing": missing_skills,
+        "apply_url": apply_url,
+        "official_portal_url": official_portal_url,
+        "match_reason": match_reason
     }

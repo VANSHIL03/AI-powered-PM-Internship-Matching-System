@@ -10,7 +10,8 @@ import {
   Briefcase, 
   Compass, 
   HelpCircle,
-  Building
+  Building,
+  ExternalLink
 } from 'lucide-react';
 
 export default function ScoreBreakdownModal({ isOpen, onClose, data }) {
@@ -200,10 +201,32 @@ export default function ScoreBreakdownModal({ isOpen, onClose, data }) {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-white/10 bg-white/[0.02] flex justify-end">
+        <div className="p-4 border-t border-white/10 bg-white/[0.02] flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center space-x-2">
+            <a
+              href={data.apply_url || "https://pminternship.mca.gov.in/"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary-gradient px-5 py-2 rounded-full text-xs font-bold text-white flex items-center space-x-1.5 shadow-md shadow-[#6366F1]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
+              <span>Apply on Official Portal</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+
+            <a
+              href={data.official_portal_url || "https://pminternship.mca.gov.in/"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-glass-secondary px-4 py-2 rounded-full text-xs font-bold text-[#00D4FF] flex items-center space-x-1.5 border-[#00D4FF]/30 hover:bg-[#00D4FF]/10"
+            >
+              <span>MCA Portal</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+
           <button
             onClick={onClose}
-            className="btn-glass-secondary px-6 py-2 rounded-full text-xs font-bold"
+            className="btn-glass-secondary px-5 py-2 rounded-full text-xs font-bold"
           >
             Close Assessment
           </button>

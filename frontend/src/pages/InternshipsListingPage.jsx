@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { internshipsAPI, studentsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import OfficialApplicationModal from '../components/OfficialApplicationModal';
+import PortfolioAnalyzerWidget from '../components/PortfolioAnalyzerWidget';
 import { 
   Search, 
   MapPin, 
   Building2, 
   Briefcase, 
-  Sparkles,
-  ArrowRight,
-  CheckCircle2,
-  Filter
+  Sparkles, 
+  ArrowRight, 
+  CheckCircle2, 
+  Filter,
+  ExternalLink,
+  ShieldCheck,
+  Zap
 } from 'lucide-react';
 
 export default function InternshipsListingPage({ setActiveTab }) {
@@ -27,8 +32,10 @@ export default function InternshipsListingPage({ setActiveTab }) {
   const [sectors, setSectors] = useState([]);
   const [locations, setLocations] = useState([]);
   const [appliedIds, setAppliedIds] = useState(new Set());
-  const [applyingId, setApplyingId] = useState(null);
-  const [toast, setToast] = useState('');
+  
+  // Application Modal state
+  const [selectedInternship, setSelectedInternship] = useState(null);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
 
   useEffect(() => {
     loadFiltersAndInternships();
@@ -58,26 +65,13 @@ export default function InternshipsListingPage({ setActiveTab }) {
     }
   };
 
-  const handleApply = async (internshipId) => {
-    if (!isAuthenticated) {
-      setActiveTab('auth');
-      return;
-    }
-    if (!isStudent) {
-      alert("Please sign in with a Student account to apply for internships.");
-      return;
-    }
+  const handleOpenApplyModal = (internship) => {
+    setSelectedInternship(internship);
+    setIsApplyModalOpen(true);
+  };
 
-    setApplyingId(internshipId);
-    try {
-      const res = await studentsAPI.applyInternship(internshipId);
-      setToast(res.data.message || 'Application submitted successfully!');
-      setAppliedIds(new Set([...appliedIds, internshipId]));
-    } catch (err) {
-      alert(err.response?.data?.detail || 'Application failed.');
-    } finally {
-      setApplyingId(null);
-    }
+  const handleAppliedSuccess = (internshipId) => {
+    setAppliedIds(new Set([...appliedIds, internshipId]));
   };
 
   const filtered = internships.filter((item) => {
@@ -98,61 +92,65 @@ export default function InternshipsListingPage({ setActiveTab }) {
 
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 space-y-10 font-sans selection:bg-[#7C3AED] selection:text-white">
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-10">
         
         {/* Header Strip with Glowing CTA */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-2 border-b border-white/10">
           <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#00D4FF] bg-[#00D4FF]/10 px-3 py-1 rounded-full border border-[#00D4FF]/20">
-              National Opportunity Catalog
+            <span className="text-xs font-bold uppercase tracking-wider text-[#00D4FF] bg-[#00D4FF]/10 px-3 py-1 rounded-full border border-[#00D4FF]/20 flex items-center space-x-1.5 w-fit">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#00D4FF]" />
+              <span>National PM Internship Scheme Catalog</span>
             </span>
             <h1 className="text-4xl sm:text-5xl font-black text-[#F8FAFC] tracking-tight">
               Explore 30+ Vacancies.
             </h1>
-            <p className="text-xs text-[#94A3B8]">
-              Filter by industry sector, geographic preference, or required technical competencies.
+            <p className="text-xs text-[#94A3B8] max-w-2xl leading-relaxed">
+              Every opening below is a verified corporate partnership under the Prime Minister's Internship Scheme. Click <strong>Apply on Portal</strong> to be redirected directly to official application portals.
             </p>
           </div>
 
-          <button
-            onClick={() => setActiveTab('ai-matching')}
-            className="btn-primary-gradient px-6 py-3 rounded-full text-xs font-semibold space-x-2"
-          >
-            <Sparkles className="w-4 h-4 text-white" />
-            <span>Check My AI Match Ranking</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center space-x-3 shrink-0">
+            <a
+              href="https://pminternship.mca.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-glass-secondary px-5 py-2.5 rounded-full text-xs font-bold flex items-center space-x-2 text-[#00D4FF] border-[#00D4FF]/30 hover:bg-[#00D4FF]/10"
+            >
+              <span>MCA PMIS Central Portal</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
 
-        {toast && (
-          <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center justify-between animate-in fade-in">
-            <div className="flex items-center space-x-2">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>{toast}</span>
-            </div>
-            <button onClick={() => setToast('')} className="text-white/60 hover:text-white">✕</button>
-          </div>
-        )}
+        {/* AI Portfolio Matcher & Analyzer Box */}
+        <PortfolioAnalyzerWidget 
+          onAnalysisComplete={(data) => {
+            console.log("Analyzed portfolio:", data);
+          }}
+        />
 
-        {/* Filter Controls (Frosted Glass Container) */}
-        <div className="glass-panel p-5 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <div className="relative md:col-span-2">
-              <Search className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-3" />
+        {/* Filter Toolbar */}
+        <div className="glass-panel p-5 sm:p-6 space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            {/* Search Input */}
+            <div className="lg:col-span-2 relative">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
               <input
                 type="text"
+                placeholder="Search by role title, enterprise name, or required skill..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by role title, enterprise name, or required skill..."
-                className="w-full pl-10 pr-3 py-2.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] placeholder-[#94A3B8] focus:outline-none focus:border-[#00D4FF]"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-[#F8FAFC] placeholder-[#94A3B8] focus:outline-none focus:border-[#00D4FF]"
               />
             </div>
 
+            {/* Sector Dropdown */}
             <div>
               <select
                 value={selectedSector}
                 onChange={(e) => setSelectedSector(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#00D4FF]"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#00D4FF]"
               >
                 <option value="All">All Sectors ({sectors.length - 1})</option>
                 {sectors.filter(s => s !== 'All').map((sec, i) => (
@@ -161,11 +159,12 @@ export default function InternshipsListingPage({ setActiveTab }) {
               </select>
             </div>
 
+            {/* Location Dropdown */}
             <div>
               <select
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-full bg-black/40 border border-white/10 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#00D4FF]"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#00D4FF]"
               >
                 <option value="All">All Locations ({locations.length - 1})</option>
                 {locations.filter(l => l !== 'All').map((loc, i) => (
@@ -212,7 +211,7 @@ export default function InternshipsListingPage({ setActiveTab }) {
         {loading ? (
           <div className="py-24 text-center text-[#94A3B8] text-xs space-y-3">
             <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-[#00D4FF] animate-spin mx-auto"></div>
-            <span>Loading corporate vacancies...</span>
+            <span>Loading corporate vacancies with verified official portals...</span>
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-16 text-center text-[#94A3B8] text-xs glass-panel space-y-2">
@@ -223,6 +222,8 @@ export default function InternshipsListingPage({ setActiveTab }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((item) => {
               const hasApplied = appliedIds.has(item.id);
+              const applyUrl = item.apply_url || "https://pminternship.mca.gov.in/";
+
               return (
                 <div 
                   key={item.id}
@@ -233,16 +234,28 @@ export default function InternshipsListingPage({ setActiveTab }) {
                       <span className="text-[10px] font-bold uppercase tracking-wider text-[#00D4FF] bg-[#00D4FF]/10 px-2.5 py-0.5 rounded-full border border-[#00D4FF]/25">
                         {item.sector}
                       </span>
-                      <span className="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/25">
-                        ₹{item.stipend_amount?.toLocaleString('en-IN')}/mo
-                      </span>
+                      <div className="flex items-center space-x-1.5">
+                        <span className="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/25">
+                          ₹{item.stipend_amount?.toLocaleString('en-IN')}/mo
+                        </span>
+                        <a
+                          href={applyUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Open Verified Corporate Application Portal"
+                          className="p-1 rounded-md bg-white/5 hover:bg-[#00D4FF]/20 text-[#94A3B8] hover:text-[#00D4FF] transition"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
                     </div>
 
                     <h3 className="text-lg font-bold text-[#F8FAFC] group-hover:text-[#00D4FF] transition-colors line-clamp-1">
                       {item.title}
                     </h3>
-                    <div className="text-xs text-[#94A3B8] font-medium mb-3">
-                      {item.company_name}
+                    <div className="text-xs text-[#94A3B8] font-medium mb-3 flex items-center justify-between">
+                      <span>{item.company_name}</span>
+                      <span className="text-[10px] text-emerald-400 font-semibold">Official Scheme Partner</span>
                     </div>
 
                     <div className="flex items-center space-x-2 text-xs text-[#94A3B8] mb-4">
@@ -267,29 +280,49 @@ export default function InternshipsListingPage({ setActiveTab }) {
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-2">
                     <span className="text-[11px] text-[#94A3B8]">
                       <strong className="text-[#F8FAFC]">{item.seats_allocated}</strong> / {item.seats_total} seats filled
                     </span>
 
-                    <button
-                      onClick={() => handleApply(item.id)}
-                      disabled={hasApplied || applyingId === item.id}
-                      className={
-                        hasApplied
-                          ? "px-4 py-1.5 rounded-full text-xs font-bold bg-white/10 text-emerald-400 border border-emerald-500/30 cursor-default"
-                          : "btn-primary-gradient px-4 py-1.5 rounded-full text-xs font-bold"
-                      }
-                    >
-                      <span>{hasApplied ? 'Applied ✓' : applyingId === item.id ? 'Applying...' : 'Apply Now'}</span>
-                    </button>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => handleOpenApplyModal(item)}
+                        className={
+                          hasApplied
+                            ? "px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/10 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1"
+                            : "btn-primary-gradient px-4 py-1.5 rounded-full text-xs font-bold flex items-center space-x-1.5"
+                        }
+                      >
+                        {hasApplied ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            <span>Applied ✓</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Apply on Portal</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
         )}
+
       </div>
+
+      {/* Official Application Modal */}
+      <OfficialApplicationModal
+        isOpen={isApplyModalOpen}
+        onClose={() => setIsApplyModalOpen(false)}
+        internship={selectedInternship}
+        onAppliedSuccess={handleAppliedSuccess}
+      />
     </div>
   );
 }

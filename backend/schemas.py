@@ -139,6 +139,8 @@ class InternshipBase(BaseModel):
     required_skills: List[str] = []
     preferred_skills: List[str] = []
     category_reservations: Dict[str, int] = {}
+    apply_url: Optional[str] = "https://pminternship.mca.gov.in/"
+    official_portal_url: Optional[str] = "https://pminternship.mca.gov.in/"
 
 class InternshipCreate(InternshipBase):
     pass
@@ -207,6 +209,9 @@ class CompatibilityResult(BaseModel):
     breakdown: MatchScoreBreakdown
     skills_matched: List[str] = []
     skills_missing: List[str] = []
+    apply_url: Optional[str] = "https://pminternship.mca.gov.in/"
+    official_portal_url: Optional[str] = "https://pminternship.mca.gov.in/"
+    match_reason: Optional[str] = None
 
 class AllocationRunRequest(BaseModel):
     weights: Optional[MatchingWeights] = None
